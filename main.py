@@ -121,6 +121,44 @@ def get_sn():
     time.sleep(1)
     return
 
+
+def get_temp():
+    chunk = addr  # сетевой адрес
+    chunk += b'\x08'  # код запроса
+    chunk += b'\x11'  # № параметра
+    chunk += b'\x70'  # BWRI (номер вспомогательного параметра)
+    chunk = crc16(chunk)
+    ser.write(chunk)
+    time.sleep(100 / 1000)
+    temp = ser.read_all()
+    za = list(temp)
+    lenga = len(za)
+    print(za)
+    a1 = za[lenga - 3]
+    a2 = za[lenga - 4]
+    A = format(a1, 'x') + format(a2, 'x')
+    temp = int(A, 16)
+    return temp
+
+
+def get_frequency():
+    chunk = addr  # сетевой адрес
+    chunk += b'\x08'  # код запроса
+    chunk += b'\x11'  # № параметра
+    chunk += b'\x40'  # BWRI (номер вспомогательного параметра)
+    chunk = crc16(chunk)
+    ser.write(chunk)
+    time.sleep(100 / 1000)
+    temp = ser.read_all()
+    za = list(temp)
+    lenga = len(za)
+    a1 = za[lenga - 3]
+    a2 = za[lenga - 4]
+    A = format(a1, 'x') + format(a2, 'x')
+    frequency = int(A, 16)/100
+    return frequency
+
+
 # запрос напряжения
 def get_voltage_A():
     chunk = addr   # сетевой адрес
@@ -548,8 +586,9 @@ def find_all_voltages():
     ser.close()
     return va, vb, vc, fw, ia, ib, ic, p, pa, pb, pc, qa, qb, qc, s, sa, sb, sc, pf, pfa, pfb, pfc
 
-# connect()
-print(find_all_voltages())
+connect()
+# print(find_all_voltages())
+print(get_temp())
 # connection_test()
 # print("Напряжение фазы А = ", get_voltage_A())
 # print("Напряжение фазы В = ", get_voltage_B())

@@ -444,6 +444,82 @@ def get_S_C():
     return SC
 
 
+def get_PF():
+    chunk = b'\x55'
+    chunk += b'\x08'
+    chunk += b'\x11'
+    chunk += b'\x30'
+    chunk = crc16(chunk)
+    ser.write(chunk)
+    time.sleep(100/1000)
+    outa = ser.read_all()
+    # za = list(outa)
+    # lenga = len(za)
+    # a1 = za[lenga - 3]
+    # a2 = za[lenga - 4]
+    # A = format(a1, 'x') + format(a2, 'x')
+    # PF = int(A, 16) / 1000
+    PF = outa
+    return PF
+
+
+def get_PF_A():
+    chunk = b'\x55'
+    chunk += b'\x08'
+    chunk += b'\x11'
+    chunk += b'\x31'
+    chunk = crc16(chunk)
+    ser.write(chunk)
+    time.sleep(100/1000)
+    outa = ser.read_all()
+    # za = list(outa)
+    # lenga = len(za)
+    # a1 = za[lenga - 3]
+    # a2 = za[lenga - 4]
+    # A = format(a1, 'x') + format(a2, 'x')
+    # PF_A = int(A, 16) / 1000
+    PF_A = outa
+    return PF_A
+
+
+def get_PF_B():
+    chunk = b'\x55'
+    chunk += b'\x08'
+    chunk += b'\x11'
+    chunk += b'\x32'
+    chunk = crc16(chunk)
+    ser.write(chunk)
+    time.sleep(100/1000)
+    outa = ser.read_all()
+    # za = list(outa)
+    # lenga = len(za)
+    # a1 = za[lenga - 3]
+    # a2 = za[lenga - 4]
+    # A = format(a1, 'x') + format(a2, 'x')
+    # PF_B = int(A, 16) / 1000
+    PF_B = outa
+    return PF_B
+
+
+def get_PF_C():
+    chunk = b'\x55'
+    chunk += b'\x08'
+    chunk += b'\x11'
+    chunk += b'\x33'
+    chunk = crc16(chunk)
+    ser.write(chunk)
+    time.sleep(100/1000)
+    outa = ser.read_all()
+    # za = list(outa)
+    # lenga = len(za)
+    # a1 = za[lenga - 3]
+    # a2 = za[lenga - 4]
+    # A = format(a1, 'x') + format(a2, 'x')
+    # PF_C = int(A, 16) / 1000
+    PF_C = outa
+    return PF_C
+
+
 def find_all_voltages():
     connect()
     va = get_voltage_A()
@@ -463,10 +539,14 @@ def find_all_voltages():
     sa = get_S_A()
     sb = get_S_B()
     sc = get_S_C()
+    pf = get_PF()
+    pfa = get_PF_A()
+    pfb = get_PF_B()
+    pfc = get_PF_C()
     fw = get_fw_crc()
     disconnect()
     ser.close()
-    return va, vb, vc, fw, ia, ib, ic, p, pa, pb, pc, qa, qb, qc, s, sa, sb, sc
+    return va, vb, vc, fw, ia, ib, ic, p, pa, pb, pc, qa, qb, qc, s, sa, sb, sc, pf, pfa, pfb, pfc
 
 # connect()
 print(find_all_voltages())

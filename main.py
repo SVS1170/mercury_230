@@ -28,10 +28,6 @@ def crc16(data):
     if crc < 0:
         crc -= 256
     result = data + chr(crc % 256).encode('latin-1') + chr(crc // 256).encode('latin-1')
-    # result = data + chr(crc % 256).encode() + chr(crc // 256).encode('latin-1')
-    # result = data + chr(z1).encode('latin-1') + chr(crc // 256).encode('latin-1')
-
-    # result2 = data + chr(crc // 256).encode('latin-1')
     return result
 
 
@@ -45,7 +41,7 @@ def connection_test():
     chunk += b'\x00'
     chunk = crc16(chunk)
     ser.write(chunk)
-    time.sleep(1)
+    time.sleep(100/1000)
 
 
 
@@ -55,8 +51,8 @@ def disconnect():
     chunk = crc16(chunk)
     # print("transmited : ",chunk)
     ser.write(chunk)
-    time.sleep(1)
-    print("disconnect")
+    time.sleep(100/1000)
+    # print("disconnect")
     return "ok"
 
 
@@ -72,18 +68,29 @@ def connect():
     chunk += b'\x01'   # 6 символ пароля
     chunk = crc16(chunk)
     ser.write(chunk)
-    time.sleep(1)
-    print("connect")
+    time.sleep(100/1000)
+    # print("connect")
 
 
 def get_time():
-    chunk = b'\x55'
-    chunk += b'\x04'
+    chunk = b'\x55'    # сетевой адрес
+    chunk += b'\x04'   # код запроса
     chunk += b'\x00'
     chunk = crc16(chunk)
     ser.write(chunk)
-    time.sleep(1)
+    time.sleep(100/1000)
+    tim = ser.read_all()
+    return tim
 
+def get_fw_crc():
+    chunk = b'\x55'    # сетевой адрес
+    chunk += b'\x08'   # код запроса
+    chunk += b'\x26'
+    chunk = crc16(chunk)
+    ser.write(chunk)
+    time.sleep(100/1000)
+    fw_crc = ser.read_all()
+    return fw_crc
 
 
 # def get_sn():
@@ -103,7 +110,7 @@ def get_voltage_A():
     chunk += b'\x11'  # BWRI (номер вспомогательного параметра)
     chunk = crc16(chunk)
     ser.write(chunk)
-    time.sleep(1)
+    time.sleep(100/1000)
     outa = ser.read_all()
     za = list(outa)
     lenga = len(za)
@@ -121,7 +128,7 @@ def get_voltage_B():
     chunk += b'\x11'
     chunk = crc16(chunk)
     ser.write(chunk)
-    time.sleep(1)
+    time.sleep(100/1000)
     outa = ser.read_all()
     za = list(outa)
     lenga = len(za)
@@ -140,7 +147,7 @@ def get_voltage_C():
     chunk += b'\x13'
     chunk = crc16(chunk)
     ser.write(chunk)
-    time.sleep(1)
+    time.sleep(100/1000)
     outa = ser.read_all()
     za = list(outa)
     lenga = len(za)
@@ -151,12 +158,23 @@ def get_voltage_C():
 
     return voltage_C
 
+def find_all_voltages():
+    connect()
+    va = get_voltage_A()
+    vb = get_voltage_B()
+    vc = get_voltage_C()
+    fw = get_fw_crc()
+    disconnect()
+    ser.close()
+    return va, vb, vc, fw
 
-connect()
-print("Напряжение фазы А = ", get_voltage_A())
-print("Напряжение фазы В = ", get_voltage_B())
-print("Напряжение фазы С = ", get_voltage_C())
-disconnect()
-ser.close()
+
+print(find_all_voltages())
+# connect()
+# print("Напряжение фазы А = ", get_voltage_A())
+# print("Напряжение фазы В = ", get_voltage_B())
+# print("Напряжение фазы С = ", get_voltage_C())
+# disconnect()
+# ser.close()
 
 

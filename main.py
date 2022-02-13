@@ -11,7 +11,9 @@ import configparser
 
 config = configparser.ConfigParser()
 config.read("config.ini")  # читаем конфиг
-address = config["counter"]["address"]
+address = int(config["counter"]["address"])
+# address = chr(address)
+addr = struct.pack('B', address)
 port = config["counter"]["port"]
 
 def crc16(data):
@@ -41,7 +43,7 @@ print('Connected:', ser.isOpen())
 
 
 def connection_test():
-    chunk = b'\x55'
+    chunk = addr
     chunk += b'\x00'
     chunk = crc16(chunk)
     ser.write(chunk)
@@ -49,8 +51,9 @@ def connection_test():
 
 
 
+
 def disconnect():
-    chunk = b'\x55'      # сетевой адрес
+    chunk = addr      # сетевой адрес
     chunk += b'\x02'     # код запроса
     chunk = crc16(chunk)
     # print("transmited : ",chunk)
@@ -61,7 +64,7 @@ def disconnect():
 
 
 def connect():
-    chunk = b'\x55'    # сетевой адрес
+    chunk = addr   # сетевой адрес
     chunk += b'\x01'   # код запроса
     chunk += b'\x01'   # код уровня доступа
     chunk += b'\x01'   # 1 символ пароля
@@ -77,7 +80,7 @@ def connect():
 
 
 def get_time():
-    chunk = b'\x55'    # сетевой адрес
+    chunk = addr    # сетевой адрес
     chunk += b'\x04'   # код запроса
     chunk += b'\x00'
     chunk = crc16(chunk)
@@ -87,7 +90,7 @@ def get_time():
     return tim
 
 def get_fw_crc():
-    chunk = b'\x55'    # сетевой адрес
+    chunk =addr    # сетевой адрес
     chunk += b'\x08'   # код запроса
     chunk += b'\x26'
     chunk = crc16(chunk)
@@ -97,7 +100,7 @@ def get_fw_crc():
     return fw_crc
 
 def get_porog():
-    chunk = b'\x55'   # сетевой адрес
+    chunk = addr   # сетевой адрес
     chunk += b'\x08'  # код запроса
     chunk += b'\x21'  # № параметра
     chunk += b'\x03'  # BWRI (номер вспомогательного параметра)
@@ -110,7 +113,7 @@ def get_porog():
 
 
 def get_sn():
-    chunk = b'\x55'
+    chunk = addr
     chunk += b'\x08'
     chunk += b'\x00'
     chunk = crc16(chunk)
@@ -120,7 +123,7 @@ def get_sn():
 
 # запрос напряжения
 def get_voltage_A():
-    chunk = b'\x55'   # сетевой адрес
+    chunk = addr   # сетевой адрес
     chunk += b'\x08'  # код запроса
     chunk += b'\x11'  # № параметра
     chunk += b'\x11'  # BWRI (номер вспомогательного параметра)
@@ -138,7 +141,7 @@ def get_voltage_A():
 
 
 def get_voltage_B():
-    chunk = b'\x55'
+    chunk = addr
     chunk += b'\x08'
     chunk += b'\x11'
     chunk += b'\x11'
@@ -157,7 +160,7 @@ def get_voltage_B():
 
 
 def get_voltage_C():
-    chunk = b'\x55'
+    chunk = addr
     chunk += b'\x08'
     chunk += b'\x11'
     chunk += b'\x13'
@@ -176,7 +179,7 @@ def get_voltage_C():
 
 
 def get_current_A():
-    chunk = b'\x55'
+    chunk = addr
     chunk += b'\x08'
     chunk += b'\x11'
     chunk += b'\x21'
@@ -195,7 +198,7 @@ def get_current_A():
 
 
 def get_current_B():
-    chunk = b'\x55'
+    chunk = addr
     chunk += b'\x08'
     chunk += b'\x11'
     chunk += b'\x22'
@@ -214,7 +217,7 @@ def get_current_B():
 
 
 def get_current_C():
-    chunk = b'\x55'
+    chunk = addr
     chunk += b'\x08'
     chunk += b'\x11'
     chunk += b'\x23'
@@ -233,7 +236,7 @@ def get_current_C():
 
 
 def get_P():
-    chunk = b'\x55'
+    chunk = addr
     chunk += b'\x08'
     chunk += b'\x11'
     chunk += b'\x04'
@@ -252,7 +255,7 @@ def get_P():
 
 
 def get_P_A():
-    chunk = b'\x55'
+    chunk = addr
     chunk += b'\x08'
     chunk += b'\x11'
     chunk += b'\x01'
@@ -271,7 +274,7 @@ def get_P_A():
 
 
 def get_P_B():
-    chunk = b'\x55'
+    chunk = addr
     chunk += b'\x08'
     chunk += b'\x11'
     chunk += b'\x02'
@@ -290,7 +293,7 @@ def get_P_B():
 
 
 def get_P_C():
-    chunk = b'\x55'
+    chunk = addr
     chunk += b'\x08'
     chunk += b'\x11'
     chunk += b'\x03'
@@ -309,7 +312,7 @@ def get_P_C():
 
 
 def get_Q_A():
-    chunk = b'\x55'
+    chunk = addr
     chunk += b'\x08'
     chunk += b'\x11'
     chunk += b'\x05'
@@ -328,7 +331,7 @@ def get_Q_A():
 
 
 def get_Q_B():
-    chunk = b'\x55'
+    chunk = addr
     chunk += b'\x08'
     chunk += b'\x11'
     chunk += b'\x06'
@@ -347,7 +350,7 @@ def get_Q_B():
 
 
 def get_Q_C():
-    chunk = b'\x55'
+    chunk = addr
     chunk += b'\x08'
     chunk += b'\x11'
     chunk += b'\x07'
@@ -366,7 +369,7 @@ def get_Q_C():
 
 
 def get_S():
-    chunk = b'\x55'
+    chunk = addr
     chunk += b'\x08'
     chunk += b'\x11'
     chunk += b'\x08'
@@ -385,7 +388,7 @@ def get_S():
 
 
 def get_S_A():
-    chunk = b'\x55'
+    chunk = addr
     chunk += b'\x08'
     chunk += b'\x11'
     chunk += b'\x09'
@@ -404,7 +407,7 @@ def get_S_A():
 
 
 def get_S_B():
-    chunk = b'\x55'
+    chunk = addr
     chunk += b'\x08'
     chunk += b'\x11'
     chunk += b'\x0a'
@@ -423,7 +426,7 @@ def get_S_B():
 
 
 def get_S_C():
-    chunk = b'\x55'
+    chunk = addr
     chunk += b'\x08'
     chunk += b'\x11'
     chunk += b'\x0b'
@@ -465,9 +468,9 @@ def find_all_voltages():
     ser.close()
     return va, vb, vc, fw, ia, ib, ic, p, pa, pb, pc, qa, qb, qc, s, sa, sb, sc
 
-
-print(find_all_voltages())
 # connect()
+print(find_all_voltages())
+# connection_test()
 # print("Напряжение фазы А = ", get_voltage_A())
 # print("Напряжение фазы В = ", get_voltage_B())
 # print("Напряжение фазы С = ", get_voltage_C())

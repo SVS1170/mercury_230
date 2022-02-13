@@ -5,9 +5,14 @@ import argparse
 import serial
 import struct
 import time
+import configparser
 
-address = 85
 
+
+config = configparser.ConfigParser()
+config.read("config.ini")  # читаем конфиг
+address = config["counter"]["address"]
+port = config["counter"]["port"]
 
 def crc16(data):
     crc = 0xFFFF
@@ -31,7 +36,7 @@ def crc16(data):
 
 
 # Open serial port
-ser = serial.Serial("COM3", 9600, serial.EIGHTBITS, serial.PARITY_NONE, serial.STOPBITS_ONE)
+ser = serial.Serial(f"{port}", 9600, serial.EIGHTBITS, serial.PARITY_NONE, serial.STOPBITS_ONE)
 print('Connected:', ser.isOpen())
 
 
@@ -104,14 +109,14 @@ def get_porog():
     return porog
 
 
-# def get_sn():
-#     chunk = b'\x55'
-#     chunk += b'\x08'
-#     chunk += b'\x00'
-#     chunk = crc16(chunk)
-#     ser.write(chunk)
-#     time.sleep(1)
-#     return
+def get_sn():
+    chunk = b'\x55'
+    chunk += b'\x08'
+    chunk += b'\x00'
+    chunk = crc16(chunk)
+    ser.write(chunk)
+    time.sleep(1)
+    return
 
 # запрос напряжения
 def get_voltage_A():

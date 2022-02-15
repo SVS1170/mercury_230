@@ -47,6 +47,7 @@ def test_hex_to_bin():
     a = "0x7f"
     # c = BitArray(hex=a)
     # ab = c.bin[2:]
+
     binary_string = "{:08b}".format(int(a, 16))
     bd = list(binary_string)
     print(bd)

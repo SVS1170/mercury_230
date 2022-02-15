@@ -6,6 +6,7 @@ import serial
 import struct
 import time
 import configparser
+from bitstring import BitArray
 
 
 
@@ -42,6 +43,15 @@ ser = serial.Serial(f"{port}", 9600, serial.EIGHTBITS, serial.PARITY_NONE, seria
 print('Connected:', ser.isOpen())
 
 
+def test_hex_to_bin():
+    a = "0x7f"
+    # c = BitArray(hex=a)
+    # ab = c.bin[2:]
+    binary_string = "{:08b}".format(int(a, 16))
+    bd = list(binary_string)
+    print(bd)
+
+
 def connection_test():
     chunk = addr
     chunk += b'\x00'
@@ -49,6 +59,22 @@ def connection_test():
     ser.write(chunk)
     time.sleep(100/1000)
 
+
+def search_counter():
+    chunk = b'\x00'
+    chunk += b'\x08'
+    chunk += b'\x05'
+    chunk = crc16(chunk)
+    ser.write(chunk)
+    time.sleep(100 / 1000)
+    dat = ser.read_all()
+    zdat = list(dat)
+    lengzdat = len(zdat)
+    a1 = zdat[lengzdat - 3]
+    rs485addr = int(a1, 16)
+    print(a1)
+    print(rs485addr)
+    return rs485addr
 
 
 
@@ -78,6 +104,27 @@ def connect():
     time.sleep(100/1000)
     # print("connect")
 
+
+def get_FW_version():
+    chunk = addr
+    chunk += b'\x08'
+    chunk += b'\x03'
+    chunk = crc16(chunk)
+    ser.write(chunk)
+    time.sleep(100 / 1000)
+    ver = ser.read_all()
+    zver = list(ver)
+    lengzver = len(zver)
+    a1 = zver[lengzver - 3]
+    a2 = zver[lengzver - 4]
+    a3 = zver[lengzver - 5]
+    ver1 = int(a1, 16)
+    ver2 = int(a2, 16)
+    ver3 = int(a3, 16)
+    version = str(ver3) +"."+ str(ver2) +"."+ str(ver1)
+    print(zver)
+    print(version)
+    return version
 
 def get_time():
     chunk = addr    # сетевой адрес
@@ -586,14 +633,15 @@ def find_all_voltages():
     ser.close()
     return va, vb, vc, fw, ia, ib, ic, p, pa, pb, pc, qa, qb, qc, s, sa, sb, sc, pf, pfa, pfb, pfc
 
-connect()
+# connect()
 # print(find_all_voltages())
-print(get_temp())
+# print(get_temp())
 # connection_test()
 # print("Напряжение фазы А = ", get_voltage_A())
 # print("Напряжение фазы В = ", get_voltage_B())
 # print("Напряжение фазы С = ", get_voltage_C())
 # disconnect()
 # ser.close()
+test_hex_to_bin()
 
 

@@ -39,16 +39,17 @@ def crc16(data):
 
 
 # Open serial port
-ser = serial.Serial(f"{port}", 9600, serial.EIGHTBITS, serial.PARITY_NONE, serial.STOPBITS_ONE)
-print('Connected:', ser.isOpen())
+# ser = serial.Serial(f"{port}", 9600, serial.EIGHTBITS, serial.PARITY_NONE, serial.STOPBITS_ONE)
+# print('Connected:', ser.isOpen())
 
 
 def test_hex_to_bin():
-    a = "0x7f"
-    # c = BitArray(hex=a)
+    # a = "0x08"
+    a = b"\x80\x00\x40\xE7\x29\x00\x40\xE7\x29\x00\x00\x00\x00\x00\x00\x00\x0f"
+    mybyte = bytes(a)
+    # c = BitArray(hex=mbyte)
     # ab = c.bin[2:]
-
-    binary_string = "{:08b}".format(int(a, 16))
+    binary_string = "{:08b}".format(int(mybyte.hex(), 16))
     bd = list(binary_string)
     print(bd)
 
@@ -327,17 +328,34 @@ def get_P():
     chunk += b'\x11'
     chunk += b'\x04'
     chunk = crc16(chunk)
-    ser.write(chunk)
-    time.sleep(100/1000)
-    outa = ser.read_all()
+    # ser.write(chunk)
+    # time.sleep(100/1000)
+    # outa = ser.read_all()
+    outa = b"\x80\x00\x40\xE7\x29\x00\x40\xE7\x29\x00\x00\x00\x70\x00\x00\x00\x0f"
     za = list(outa)
     lenga = len(za)
-    a1 = za[lenga - 3]
-    a2 = za[lenga - 4]
-    A = format(a1, 'x') + format(a2, 'x')
-    P = int(A, 16) / 100
+    a2 = za[lenga - 3]
+    a3 = za[lenga - 4]
+    a1a = za[lenga - 5]
+    print(a1a)
+    a = a1a
+    mybyte = a1a
+    print(mybyte)
+    binary_string = "{:08b}".format(int(mybyte))
+    bd = list(binary_string)
+    print(bd)
+    AR = bd[0]
+    RR = bd[1]
+    a1 = ''.join(bd[2:8])
+    binary_string = int(a1, 2)
+    print(a1)
+    print(binary_string)
+    print("напровление активной мощности", AR, "направление реактивной мощности", RR)
+    # a3a =
+    # A = format(a1, 'x') + format(a2, 'x') + format(a3, 'x')
+    # P = int(A, 16) / 100
 
-    return P
+    # return P
 
 
 def get_P_A():
@@ -635,6 +653,7 @@ def find_all_voltages():
     return va, vb, vc, fw, ia, ib, ic, p, pa, pb, pc, qa, qb, qc, s, sa, sb, sc, pf, pfa, pfb, pfc
 
 # connect()
+get_P()
 # print(find_all_voltages())
 # print(get_temp())
 # connection_test()
@@ -643,6 +662,6 @@ def find_all_voltages():
 # print("Напряжение фазы С = ", get_voltage_C())
 # disconnect()
 # ser.close()
-test_hex_to_bin()
+# test_hex_to_bin()
 
 

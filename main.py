@@ -337,13 +337,9 @@ def get_P():
     a2 = za[lenga - 3]
     a3 = za[lenga - 4]
     a1a = za[lenga - 5]
-    # print(a2)
-    # print(a3)
     mybyte = a1a
-    # print(mybyte)
     binary_string = "{:08b}".format(int(mybyte))
     bd = list(binary_string)
-    # print(bd)
     AR = bd[0]
     RR = bd[1]
     a1 = ''.join(bd[2:8])
@@ -351,7 +347,7 @@ def get_P():
     A = a1b + format(a2, 'x') + format(a3, 'x')
     P = int(A, 16) / 100
     print(P)
-    # return P
+    return P
 
 
 def get_P_A():

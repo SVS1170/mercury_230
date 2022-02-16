@@ -378,7 +378,10 @@ class Mercury230:
         a1 = ''.join(bd[2:8])
         a1b = hex(int(a1, 2))
         A = a1b + format(a2, 'x') + format(a3, 'x')
+        k = -1
         PA = int(A, 16) / 100
+        if AR:
+            PA = PA*k
         return PA
 
     def get_P_B(self):
@@ -405,6 +408,9 @@ class Mercury230:
         a1b = hex(int(a1, 2))
         A = a1b + format(a2, 'x') + format(a3, 'x')
         PB = int(A, 16) / 100
+        k = -1
+        if AR:
+            PB = PB*k
         return PB
 
     def get_P_C(self):
@@ -431,6 +437,9 @@ class Mercury230:
         a1b = hex(int(a1, 2))
         A = a1b + format(a2, 'x') + format(a3, 'x')
         PC = int(A, 16) / 100
+        k = -1
+        if AR:
+            PC = PC * k
         return PC
 
     def get_Q(self):
@@ -457,6 +466,9 @@ class Mercury230:
         a1b = hex(int(a1, 2))
         A = a1b + format(a2, 'x') + format(a3, 'x')
         Q = int(A, 16) / 100
+        k = -1
+        if RR:
+            Q = Q * k
         return Q
 
     def get_Q_A(self):
@@ -483,6 +495,9 @@ class Mercury230:
         a1b = hex(int(a1, 2))
         A = a1b + format(a2, 'x') + format(a3, 'x')
         QA = int(A, 16) / 100
+        k = -1
+        if RR:
+            QA = QA * k
         return QA
 
 
@@ -520,6 +535,9 @@ class Mercury230:
         a1b = hex(int(a1, 2))
         A = a1b + format(a2, 'x') + format(a3, 'x')
         QB = int(A, 16) / 100
+        k = -1
+        if RR:
+            QB = QB * k
         return QB
 
 
@@ -547,6 +565,9 @@ class Mercury230:
         a1b = hex(int(a1, 2))
         A = a1b + format(a2, 'x') + format(a3, 'x')
         QC = int(A, 16) / 100
+        k = -1
+        if RR:
+            QC = QC * k
         return QC
 
 

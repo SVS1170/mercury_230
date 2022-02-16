@@ -326,7 +326,7 @@ def get_P():
     chunk = addr
     chunk += b'\x08'
     chunk += b'\x11'
-    chunk += b'\x04'
+    chunk += b'\x00'
     chunk = crc16(chunk)
     ser.write(chunk)
     time.sleep(100/1000)
@@ -346,7 +346,7 @@ def get_P():
     a1b = hex(int(a1, 2))
     A = a1b + format(a2, 'x') + format(a3, 'x')
     P = int(A, 16) / 100
-    print(P)
+    # print(P)
     return P
 
 
@@ -357,14 +357,24 @@ def get_P_A():
     chunk += b'\x01'
     chunk = crc16(chunk)
     ser.write(chunk)
-    time.sleep(100/1000)
+    time.sleep(100 / 1000)
     outa = ser.read_all()
+    # outa = b"\x80\x00\x40\xE7\x29\x00\x40\xE7\x29\x00\x00\x00\x70\xf1\xff\x00\x0f"
     za = list(outa)
     lenga = len(za)
-    a1 = za[lenga - 3]
-    a2 = za[lenga - 4]
-    A = format(a1, 'x') + format(a2, 'x')
+    a2 = za[lenga - 3]
+    a3 = za[lenga - 4]
+    a1a = za[lenga - 5]
+    mybyte = a1a
+    binary_string = "{:08b}".format(int(mybyte))
+    bd = list(binary_string)
+    AR = bd[0]
+    RR = bd[1]
+    a1 = ''.join(bd[2:8])
+    a1b = hex(int(a1, 2))
+    A = a1b + format(a2, 'x') + format(a3, 'x')
     PA = int(A, 16) / 100
+    # print(PA)
 
     return PA
 
@@ -376,14 +386,24 @@ def get_P_B():
     chunk += b'\x02'
     chunk = crc16(chunk)
     ser.write(chunk)
-    time.sleep(100/1000)
+    time.sleep(100 / 1000)
     outa = ser.read_all()
+    # outa = b"\x80\x00\x40\xE7\x29\x00\x40\xE7\x29\x00\x00\x00\x70\xf1\xff\x00\x0f"
     za = list(outa)
     lenga = len(za)
-    a1 = za[lenga - 3]
-    a2 = za[lenga - 4]
-    A = format(a1, 'x') + format(a2, 'x')
+    a2 = za[lenga - 3]
+    a3 = za[lenga - 4]
+    a1a = za[lenga - 5]
+    mybyte = a1a
+    binary_string = "{:08b}".format(int(mybyte))
+    bd = list(binary_string)
+    AR = bd[0]
+    RR = bd[1]
+    a1 = ''.join(bd[2:8])
+    a1b = hex(int(a1, 2))
+    A = a1b + format(a2, 'x') + format(a3, 'x')
     PB = int(A, 16) / 100
+    # print(PB)
 
     return PB
 
@@ -395,14 +415,24 @@ def get_P_C():
     chunk += b'\x03'
     chunk = crc16(chunk)
     ser.write(chunk)
-    time.sleep(100/1000)
+    time.sleep(100 / 1000)
     outa = ser.read_all()
+    # outa = b"\x80\x00\x40\xE7\x29\x00\x40\xE7\x29\x00\x00\x00\x70\xf1\xff\x00\x0f"
     za = list(outa)
     lenga = len(za)
-    a1 = za[lenga - 3]
-    a2 = za[lenga - 4]
-    A = format(a1, 'x') + format(a2, 'x')
+    a2 = za[lenga - 3]
+    a3 = za[lenga - 4]
+    a1a = za[lenga - 5]
+    mybyte = a1a
+    binary_string = "{:08b}".format(int(mybyte))
+    bd = list(binary_string)
+    AR = bd[0]
+    RR = bd[1]
+    a1 = ''.join(bd[2:8])
+    a1b = hex(int(a1, 2))
+    A = a1b + format(a2, 'x') + format(a3, 'x')
     PC = int(A, 16) / 100
+    # print("Мощность по фазе С = ",PC)
 
     return PC
 
@@ -645,7 +675,15 @@ def find_all_voltages():
     return va, vb, vc, fw, ia, ib, ic, p, pa, pb, pc, qa, qb, qc, s, sa, sb, sc, pf, pfa, pfb, pfc
 
 connect()
-get_P()
+
+va = get_voltage_A()
+vb = get_voltage_B()
+vc = get_voltage_C()
+p = get_P()
+pa = get_P_A()
+pb = get_P_B()
+pc = get_P_C()
+print("напряжение фазы А = ", va, "Мощность по фазе A = ", pa, "\n" ,"напряжение фазы B = ", vb, "Мощность по фазе B = ", pb, "\n", "напряжение фазы C = ", vc, "Мощность по фазе С = ", pc, "\n")
 # print(find_all_voltages())
 # print(get_temp())
 # connection_test()
@@ -655,5 +693,6 @@ get_P()
 # disconnect()
 # ser.close()
 # test_hex_to_bin()
-
-
+#
+#
+#

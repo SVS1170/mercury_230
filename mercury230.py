@@ -433,6 +433,317 @@ class Mercury230:
         PC = int(A, 16) / 100
         return PC
 
+    def get_Q(self):
+        chunk = self.addr
+        chunk += b'\x08'
+        chunk += b'\x11'
+        chunk += b'\x04'
+        chunk = self.crc16(chunk)
+        ser = self.open_port(self.port1)
+        ser.write(chunk)
+        time.sleep(100/1000)
+        outa = ser.read_all()
+        za = list(outa)
+        lenga = len(za)
+        a2 = za[lenga - 3]
+        a3 = za[lenga - 4]
+        a1a = za[lenga - 5]
+        mybyte = a1a
+        binary_string = "{:08b}".format(int(mybyte))
+        bd = list(binary_string)
+        AR = bd[0]
+        RR = bd[1]
+        a1 = ''.join(bd[2:8])
+        a1b = hex(int(a1, 2))
+        A = a1b + format(a2, 'x') + format(a3, 'x')
+        Q = int(A, 16) / 100
+        return Q
+
+    def get_Q_A(self):
+        chunk = self.addr
+        chunk += b'\x08'
+        chunk += b'\x11'
+        chunk += b'\x05'
+        chunk = self.crc16(chunk)
+        ser = self.open_port(self.port1)
+        ser.write(chunk)
+        time.sleep(100/1000)
+        outa = ser.read_all()
+        za = list(outa)
+        lenga = len(za)
+        a2 = za[lenga - 3]
+        a3 = za[lenga - 4]
+        a1a = za[lenga - 5]
+        mybyte = a1a
+        binary_string = "{:08b}".format(int(mybyte))
+        bd = list(binary_string)
+        AR = bd[0]
+        RR = bd[1]
+        a1 = ''.join(bd[2:8])
+        a1b = hex(int(a1, 2))
+        A = a1b + format(a2, 'x') + format(a3, 'x')
+        QA = int(A, 16) / 100
+        return QA
+
+
+    def get_Q_B(self):
+        chunk = self.addr
+        chunk += b'\x08'
+        chunk += b'\x11'
+        chunk += b'\x06'
+        chunk = self.crc16(chunk)
+        ser = self.open_port(self.port1)
+        time.sleep(100/1000)
+        outa = ser.read_all()
+        za = list(outa)
+        lenga = len(za)
+        a1 = za[lenga - 3]
+        a2 = za[lenga - 4]
+        A = format(a1, 'x') + format(a2, 'x')
+        QB = int(A, 16) / 100
+        chunk = self.crc16(chunk)
+        ser = self.open_port(self.port1)
+        ser.write(chunk)
+        time.sleep(100 / 1000)
+        outa = ser.read_all()
+        za = list(outa)
+        lenga = len(za)
+        a2 = za[lenga - 3]
+        a3 = za[lenga - 4]
+        a1a = za[lenga - 5]
+        mybyte = a1a
+        binary_string = "{:08b}".format(int(mybyte))
+        bd = list(binary_string)
+        AR = bd[0]
+        RR = bd[1]
+        a1 = ''.join(bd[2:8])
+        a1b = hex(int(a1, 2))
+        A = a1b + format(a2, 'x') + format(a3, 'x')
+        QB = int(A, 16) / 100
+        return QB
+
+
+    def get_Q_C(self):
+        chunk = self.addr
+        chunk += b'\x08'
+        chunk += b'\x11'
+        chunk += b'\x07'
+        chunk = self.crc16(chunk)
+        ser = self.open_port(self.port1)
+        ser.write(chunk)
+        time.sleep(100 / 1000)
+        outa = ser.read_all()
+        za = list(outa)
+        lenga = len(za)
+        a2 = za[lenga - 3]
+        a3 = za[lenga - 4]
+        a1a = za[lenga - 5]
+        mybyte = a1a
+        binary_string = "{:08b}".format(int(mybyte))
+        bd = list(binary_string)
+        AR = bd[0]
+        RR = bd[1]
+        a1 = ''.join(bd[2:8])
+        a1b = hex(int(a1, 2))
+        A = a1b + format(a2, 'x') + format(a3, 'x')
+        QC = int(A, 16) / 100
+        return QC
+
+
+    def get_S(self):
+        chunk = self.addr
+        chunk += b'\x08'
+        chunk += b'\x11'
+        chunk += b'\x08'
+        chunk = self.crc16(chunk)
+        ser = self.open_port(self.port1)
+        ser.write(chunk)
+        time.sleep(100 / 1000)
+        outa = ser.read_all()
+        za = list(outa)
+        lenga = len(za)
+        a2 = za[lenga - 3]
+        a3 = za[lenga - 4]
+        a1a = za[lenga - 5]
+        mybyte = a1a
+        binary_string = "{:08b}".format(int(mybyte))
+        bd = list(binary_string)
+        AR = bd[0]
+        RR = bd[1]
+        a1 = ''.join(bd[2:8])
+        a1b = hex(int(a1, 2))
+        A = a1b + format(a2, 'x') + format(a3, 'x')
+        S = int(A, 16) / 100
+
+        return S
+
+
+    def get_S_A(self):
+        chunk = self.addr
+        chunk += b'\x08'
+        chunk += b'\x11'
+        chunk += b'\x09'
+        chunk = self.crc16(chunk)
+        ser = self.open_port(self.port1)
+        ser.write(chunk)
+        time.sleep(100 / 1000)
+        outa = ser.read_all()
+        za = list(outa)
+        lenga = len(za)
+        a2 = za[lenga - 3]
+        a3 = za[lenga - 4]
+        a1a = za[lenga - 5]
+        mybyte = a1a
+        binary_string = "{:08b}".format(int(mybyte))
+        bd = list(binary_string)
+        AR = bd[0]
+        RR = bd[1]
+        a1 = ''.join(bd[2:8])
+        a1b = hex(int(a1, 2))
+        A = a1b + format(a2, 'x') + format(a3, 'x')
+        SA = int(A, 16) / 100
+
+        return SA
+
+
+    def get_S_B(self):
+        chunk = self.addr
+        chunk += b'\x08'
+        chunk += b'\x11'
+        chunk += b'\x0a'
+        chunk = self.crc16(chunk)
+        ser = self.open_port(self.port1)
+        time.sleep(100/1000)
+        outa = ser.read_all()
+        za = list(outa)
+        lenga = len(za)
+        a1 = za[lenga - 3]
+        a2 = za[lenga - 4]
+        A = format(a1, 'x') + format(a2, 'x')
+        SB = int(A, 16) / 100
+        chunk = self.crc16(chunk)
+        ser = self.open_port(self.port1)
+        ser.write(chunk)
+        time.sleep(100 / 1000)
+        outa = ser.read_all()
+        za = list(outa)
+        lenga = len(za)
+        a2 = za[lenga - 3]
+        a3 = za[lenga - 4]
+        a1a = za[lenga - 5]
+        mybyte = a1a
+        binary_string = "{:08b}".format(int(mybyte))
+        bd = list(binary_string)
+        AR = bd[0]
+        RR = bd[1]
+        a1 = ''.join(bd[2:8])
+        a1b = hex(int(a1, 2))
+        A = a1b + format(a2, 'x') + format(a3, 'x')
+        SB = int(A, 16) / 100
+        return SB
+
+
+    def get_S_C(self):
+        chunk = self.addr
+        chunk += b'\x08'
+        chunk += b'\x11'
+        chunk += b'\x0b'
+        chunk = self.crc16(chunk)
+        ser = self.open_port(self.port1)
+        ser.write(chunk)
+        time.sleep(100 / 1000)
+        outa = ser.read_all()
+        za = list(outa)
+        lenga = len(za)
+        a2 = za[lenga - 3]
+        a3 = za[lenga - 4]
+        a1a = za[lenga - 5]
+        mybyte = a1a
+        binary_string = "{:08b}".format(int(mybyte))
+        bd = list(binary_string)
+        AR = bd[0]
+        RR = bd[1]
+        a1 = ''.join(bd[2:8])
+        a1b = hex(int(a1, 2))
+        A = a1b + format(a2, 'x') + format(a3, 'x')
+        SC = int(A, 16) / 100
+        return SC
+
+
+    # def get_PF(self):
+    #     chunk = b'\x55'
+    #     chunk += b'\x08'
+    #     chunk += b'\x11'
+    #     chunk += b'\x30'
+    #     chunk = self.crc16(chunk)
+    #     ser = self.open_port(self.port1)
+    #     time.sleep(100/1000)
+    #     outa = ser.read_all()
+    #     # za = list(outa)
+    #     # lenga = len(za)
+    #     # a1 = za[lenga - 3]
+    #     # a2 = za[lenga - 4]
+    #     # A = format(a1, 'x') + format(a2, 'x')
+    #     # PF = int(A, 16) / 1000
+    #     PF = outa
+    #     return PF
+    #
+    #
+    # def get_PF_A(self):
+    #     chunk = self.addr
+    #     chunk += b'\x08'
+    #     chunk += b'\x11'
+    #     chunk += b'\x31'
+    #     chunk = self.crc16(chunk)
+    #     ser = self.open_port(self.port1)
+    #     time.sleep(100/1000)
+    #     outa = ser.read_all()
+    #     # za = list(outa)
+    #     # lenga = len(za)
+    #     # a1 = za[lenga - 3]
+    #     # a2 = za[lenga - 4]
+    #     # A = format(a1, 'x') + format(a2, 'x')
+    #     # PF_A = int(A, 16) / 1000
+    #     PF_A = outa
+    #     return PF_A
+    #
+    #
+    # def get_PF_B(self):
+    #     chunk = self.addr
+    #     chunk += b'\x08'
+    #     chunk += b'\x11'
+    #     chunk += b'\x32'
+    #     chunk = self.crc16(chunk)
+    #     ser = self.open_port(self.port1)
+    #     time.sleep(100/1000)
+    #     outa = ser.read_all()
+    #     # za = list(outa)
+    #     # lenga = len(za)
+    #     # a1 = za[lenga - 3]
+    #     # a2 = za[lenga - 4]
+    #     # A = format(a1, 'x') + format(a2, 'x')
+    #     # PF_B = int(A, 16) / 1000
+    #     PF_B = outa
+    #     return PF_B
+    #
+    #
+    # def get_PF_C(self):
+    #     chunk = self.addr
+    #     chunk += b'\x08'
+    #     chunk += b'\x11'
+    #     chunk += b'\x33'
+    #     chunk = self.crc16(chunk)
+    #     ser = self.open_port(self.port1)
+    #     time.sleep(100/1000)
+    #     outa = ser.read_all()
+    #     # za = list(outa)
+    #     # lenga = len(za)
+    #     # a1 = za[lenga - 3]
+    #     # a2 = za[lenga - 4]
+    #     # A = format(a1, 'x') + format(a2, 'x')
+    #     # PF_C = int(A, 16) / 1000
+    #     PF_C = outa
+    #     return PF_C
 
 
 # merc = Mercury230(address, port)

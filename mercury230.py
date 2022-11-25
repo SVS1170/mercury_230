@@ -220,6 +220,18 @@ class Mercury230:
         frequency = int(A, 16) / 100
         return frequency
 
+    def get_aux_parametres_fast(self):                #for mercury 234
+        chunk = self.addr  # сетевой адрес
+        chunk += b'\x08'
+        chunk += b'\x16'
+        chunk += b'\xA0'
+        ser = self.open_port(self.port1)
+        ser.write(chunk)
+        time.sleep(100 / 1000)
+        outdata = ser.read_all()
+        print(outdata)
+        return outdata
+
     # запрос напряжения
     def get_voltage_A(self):
         chunk = self.addr  # сетевой адрес

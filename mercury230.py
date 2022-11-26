@@ -11,8 +11,8 @@ from bitstring import BitArray
 # config = configparser.ConfigParser()
 # config.read("config.ini")  # читаем конфиг
 # address = int(config["counter"]["address"])
-# address = chr(address)
-# addr = struct.pack('B', address)
+# # address = chr(address)
+# # address = int(config["counter"]["address"])
 # port = config["counter"]["port"]
 
 
@@ -70,8 +70,11 @@ class Mercury230:
         ser = self.open_port(self.port1)
         ser.write(chunk)
         time.sleep(100 / 1000)
+        dat = ser.read_all()
+        print(dat)
 
     def search_counter(self):
+        # addr = self.addr
         chunk = b'\x00'
         chunk += b'\x08'
         chunk += b'\x05'
@@ -130,16 +133,16 @@ class Mercury230:
         a1 = zver[lengzver - 3]
         a2 = zver[lengzver - 4]
         a3 = zver[lengzver - 5]
-        ver1 = int(a1, 16)
-        ver2 = int(a2, 16)
-        ver3 = int(a3, 16)
+        ver1 = int(a1)
+        ver2 = int(a2)
+        ver3 = int(a3)
         version = str(ver3) + "." + str(ver2) + "." + str(ver1)
-        print(zver)
-        print(version)
+        # print(zver)
+        # print(version)
         return version
 
     def get_time(self):
-        chunk = addr  # сетевой адрес
+        chunk = self.addr  # сетевой адрес
         chunk += b'\x04'  # код запроса
         chunk += b'\x00'
         chunk = self.crc16(chunk)
@@ -174,14 +177,33 @@ class Mercury230:
         return porog
 
     def get_sn(self):
-        chunk = addr
+        chunk = self.addr
         chunk += b'\x08'
         chunk += b'\x00'
         chunk = self.crc16(chunk)
         ser = self.open_port(self.port1)
         ser.write(chunk)
         time.sleep(1)
-        return
+        sn = ser.read_all()
+        sn = list(sn)
+        lengsn = len(sn)
+        a1 = sn[lengsn - 6]
+        a2 = sn[lengsn - 7]
+        a3 = sn[lengsn - 8]
+        a4 = sn[lengsn - 9]
+        a5 = sn[lengsn - 5]
+        a6 = sn[lengsn - 4]
+        a7 = sn[lengsn - 3]
+        sn1 = int(a1)
+        sn2 = int(a2)
+        sn3 = int(a3)
+        sn4 = int(a4)
+        sn = str(sn4) + str(sn3) + str(sn2) + str(sn1)
+        md1 = int(a5)
+        md2 = int(a6)
+        md3 = int(a7)
+        manufacture_date = str(md1) + "." + str(md2) + "." + str(md3)
+        return sn, manufacture_date
 
     def get_temp(self):
         chunk = self.addr  # сетевой адрес
@@ -194,12 +216,7 @@ class Mercury230:
         time.sleep(100 / 1000)
         temp = ser.read_all()
         za = list(temp)
-        lenga = len(za)
-        print(za)
-        a1 = za[lenga - 3]
-        a2 = za[lenga - 4]
-        A = format(a1, 'x') + format(a2, 'x')
-        temp = int(A, 16)
+        temp = int(za[2])
         return temp
 
     def get_frequency(self):
@@ -216,21 +233,24 @@ class Mercury230:
         lenga = len(za)
         a1 = za[lenga - 3]
         a2 = za[lenga - 4]
-        A = format(a1, 'x') + format(a2, 'x')
-        frequency = int(A, 16) / 100
+        f = format(a1, 'x') + format(a2, 'x')
+        frequency = int(f, 16) / 100
         return frequency
 
-    def get_aux_parametres_fast(self):                #for mercury 234
+
+    #for mercury 234
+    def get_aux_fast(self):
         chunk = self.addr  # сетевой адрес
         chunk += b'\x08'
         chunk += b'\x16'
         chunk += b'\xA0'
+        chunk = self.crc16(chunk)
         ser = self.open_port(self.port1)
         ser.write(chunk)
         time.sleep(100 / 1000)
         outdata = ser.read_all()
         print(outdata)
-        return outdata
+        # return outdata
 
     # запрос напряжения
     def get_voltage_A(self):
@@ -780,5 +800,10 @@ class Mercury230:
 
 
 # merc = Mercury230(address, port)
-# print(merc.search_counter())
-# # mercury230.get_P()
+m230a = Mercury230(91, 'COM3')
+m230a.connect()
+# print(m230a.get_aux_fast())
+print("Серийный номер : ", m230a.get_sn()[0])
+print("Дата изготовления : ", m230a.get_sn()[1])
+# print(m230a.get_FW_version())
+m230a.disconnect()

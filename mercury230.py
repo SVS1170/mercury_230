@@ -8,6 +8,7 @@ import time
 import configparser
 from bitstring import BitArray
 
+
 # config = configparser.ConfigParser()
 # config.read("config.ini")  # читаем конфиг
 # address = int(config["counter"]["address"])
@@ -27,9 +28,9 @@ class Mercury230:
     #     return ser
     def open_port(self, port1):
         ser = serial.Serial(f"{port1}", 9600, serial.EIGHTBITS, serial.PARITY_NONE, serial.STOPBITS_ONE)
+        ser.set_buffer_size(rx_size=25600, tx_size=25600)
         # print('Connected:', ser.isOpen())
         return ser
-
 
     def test_hex_to_bin(self):
         # a = addr
@@ -140,6 +141,81 @@ class Mercury230:
         # print(zver)
         # print(version)
         return version
+
+    def get_active_energy_current_day(self):
+        chunk = self.addr
+        chunk += b'\x05'  # чтение массивов накопленной энергии
+        chunk += b'\xC0'  # на начало текущих суток
+        chunk += b'\x00'  # по тарифу№ (по сумме тарифов - 0)
+        chunk = self.crc16(chunk)
+        ser = self.open_port(self.port1)
+        ser.write(chunk)
+        time.sleep(100 / 1000)
+        ver = ser.read_all()
+        za = list(ver)
+        # print(za)
+        lengza = len(za)
+        a0 = za[lengza - 15]
+        a1 = za[lengza - 16]
+        a2 = za[lengza - 17]
+        a3 = za[lengza - 18]
+        A = format(a3, 'x') + format(a2, 'x') + format(a0, 'x') + format(a1, 'x')
+        P = int(A, 16) / 1000
+        return P
+
+    def get_active_energy_last_day(self):
+        chunk = self.addr
+        chunk += b'\x05'  # чтение массивов накопленной энергии
+        chunk += b'\xD0'  # на начало текущих суток
+        chunk += b'\x00'  # по тарифу№ (по сумме тарифов - 0)
+        chunk = self.crc16(chunk)
+        ser = self.open_port(self.port1)
+        ser.write(chunk)
+        time.sleep(100 / 1000)
+        ver = ser.read_all()
+        za = list(ver)
+        # print(za)
+        lengza = len(za)
+        a0 = za[lengza - 15]
+        a1 = za[lengza - 16]
+        a2 = za[lengza - 17]
+        a3 = za[lengza - 18]
+        A = format(a3, 'x') + format(a2, 'x') + format(a0, 'x') + format(a1, 'x')
+        P = int(A, 16) / 1000
+        return P
+
+    def get_active_energy_phases(self):
+        chunk = self.addr
+        chunk += b'\x05'  # чтение массивов накопленной энергии
+        chunk += b'\x60'  # на начало текущих суток
+        chunk += b'\x00'  # по тарифу№ (по сумме тарифов - 0)
+        chunk = self.crc16(chunk)
+        ser = self.open_port(self.port1)
+        ser.write(chunk)
+        time.sleep(100 / 1000)
+        ver = ser.read_all()
+        za = list(ver)
+        # print(za)
+        lengza = len(za)
+        a0 = za[lengza - 11]
+        a1 = za[lengza - 12]
+        a2 = za[lengza - 13]
+        a3 = za[lengza - 14]
+        A = format(a2, 'x') + format(a3, 'x') + format(a0, 'x') + format(a1, 'x')
+        PA = int(A, 16) / 1000
+        b0 = za[lengza - 7]
+        b1 = za[lengza - 8]
+        b2 = za[lengza - 9]
+        b3 = za[lengza - 10]
+        B = format(b2, 'x') + format(b3, 'x') + format(b0, 'x') + format(b1, 'x')
+        PB = int(B, 16) / 1000
+        c0 = za[lengza - 3]
+        c1 = za[lengza - 4]
+        c2 = za[lengza - 5]
+        c3 = za[lengza - 6]
+        C = format(c2, 'x') + format(c3, 'x') + format(c0, 'x') + format(c1, 'x')
+        PC = int(C, 16) / 1000
+        return PA, PB, PC
 
     def get_parametres(self):
         chunk = self.addr
@@ -290,7 +366,7 @@ class Mercury230:
         openss = open[lengopen - 14]
         openss = format(openss, 'x')
 
-        return "case opened : ", openhh, openmm, openss, openYY, openMM, openDD,  "\rn", "case closed : ", clhh, clmm, clss, clYY, clMM, clDD
+        return "case opened : ", openhh, openmm, openss, openYY, openMM, openDD, "\rn", "case closed : ", clhh, clmm, clss, clYY, clMM, clDD
 
     def get_frequency(self):
         chunk = self.addr  # сетевой адрес
@@ -310,8 +386,7 @@ class Mercury230:
         frequency = int(f, 16) / 100
         return frequency
 
-
-    #for mercury 234
+    # for mercury 234
     def get_aux_fast(self):
         chunk = self.addr  # сетевой адрес
         chunk += b'\x08'
@@ -323,6 +398,7 @@ class Mercury230:
         time.sleep(100 / 1000)
         outdata = ser.read_all()
         print(outdata)
+
         # return outdata
 
     # запрос напряжения
@@ -486,7 +562,7 @@ class Mercury230:
         k = -1
         PA = int(A, 16) / 100
         if AR:
-            PA = PA*k
+            PA = PA * k
         return PA
 
     def get_P_B(self):
@@ -515,7 +591,7 @@ class Mercury230:
         PB = int(A, 16) / 100
         k = -1
         if AR:
-            PB = PB*k
+            PB = PB * k
         return PB
 
     def get_P_C(self):
@@ -555,7 +631,7 @@ class Mercury230:
         chunk = self.crc16(chunk)
         ser = self.open_port(self.port1)
         ser.write(chunk)
-        time.sleep(100/1000)
+        time.sleep(100 / 1000)
         outa = ser.read_all()
         za = list(outa)
         lenga = len(za)
@@ -584,7 +660,7 @@ class Mercury230:
         chunk = self.crc16(chunk)
         ser = self.open_port(self.port1)
         ser.write(chunk)
-        time.sleep(100/1000)
+        time.sleep(100 / 1000)
         outa = ser.read_all()
         za = list(outa)
         lenga = len(za)
@@ -605,7 +681,6 @@ class Mercury230:
             QA = QA * k
         return QA
 
-
     def get_Q_B(self):
         chunk = self.addr
         chunk += b'\x08'
@@ -613,7 +688,7 @@ class Mercury230:
         chunk += b'\x06'
         chunk = self.crc16(chunk)
         ser = self.open_port(self.port1)
-        time.sleep(100/1000)
+        time.sleep(100 / 1000)
         outa = ser.read_all()
         za = list(outa)
         lenga = len(za)
@@ -645,7 +720,6 @@ class Mercury230:
             QB = QB * k
         return QB
 
-
     def get_Q_C(self):
         chunk = self.addr
         chunk += b'\x08'
@@ -675,7 +749,6 @@ class Mercury230:
             QC = QC * k
         return QC
 
-
     def get_S(self):
         chunk = self.addr
         chunk += b'\x08'
@@ -702,7 +775,6 @@ class Mercury230:
         S = int(A, 16) / 100
 
         return S
-
 
     def get_S_A(self):
         chunk = self.addr
@@ -731,7 +803,6 @@ class Mercury230:
 
         return SA
 
-
     def get_S_B(self):
         chunk = self.addr
         chunk += b'\x08'
@@ -739,7 +810,7 @@ class Mercury230:
         chunk += b'\x0a'
         chunk = self.crc16(chunk)
         ser = self.open_port(self.port1)
-        time.sleep(100/1000)
+        time.sleep(100 / 1000)
         outa = ser.read_all()
         za = list(outa)
         lenga = len(za)
@@ -768,7 +839,6 @@ class Mercury230:
         SB = int(A, 16) / 100
         return SB
 
-
     def get_S_C(self):
         chunk = self.addr
         chunk += b'\x08'
@@ -794,7 +864,6 @@ class Mercury230:
         A = a1b + format(a2, 'x') + format(a3, 'x')
         SC = int(A, 16) / 100
         return SC
-
 
     # def get_PF(self):
     #     chunk = b'\x55'
@@ -870,7 +939,6 @@ class Mercury230:
     #     # PF_C = int(A, 16) / 1000
     #     PF_C = outa
     #     return PF_C
-
 
 # merc = Mercury230(address, port)
 # m230a = Mercury230(91, 'COM3')

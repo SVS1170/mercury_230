@@ -141,6 +141,40 @@ class Mercury230:
         # print(version)
         return version
 
+    def get_parametres(self):
+        chunk = self.addr
+        chunk += b'\x08'
+        chunk += b'\x01'
+        chunk = self.crc16(chunk)
+        ser = self.open_port(self.port1)
+        ser.write(chunk)
+        time.sleep(100 / 1000)
+        ver = ser.read_all()
+        zver = list(ver)
+        lengzver = len(zver)
+        isp1 = zver[lengzver - 3]
+        isp2 = zver[lengzver - 4]
+        isp3 = zver[lengzver - 5]
+        isp4 = zver[lengzver - 6]
+        isp5 = zver[lengzver - 7]
+        isp6 = zver[lengzver - 8]
+        ver1 = zver[lengzver - 9]
+        ver2 = zver[lengzver - 10]
+        ver3 = zver[lengzver - 11]
+        var1 = int(isp1)
+        var2 = int(isp2)
+        var3 = int(isp3)
+        var4 = int(isp4)
+        var5 = int(isp5)
+        var6 = int(isp6)
+        vers1 = int(ver1)
+        vers2 = int(ver2)
+        vers3 = int(ver3)
+        # version = str(ver3) + "." + str(ver2) + "." + str(ver1)
+        # print(zver)
+        # print(version)
+        return zver
+
     def get_time(self):
         chunk = self.addr  # сетевой адрес
         chunk += b'\x04'  # код запроса
@@ -218,6 +252,45 @@ class Mercury230:
         za = list(temp)
         temp = int(za[2])
         return temp
+
+    def get_caseopen(self):
+        chunk = self.addr  # сетевой адрес
+        chunk += b'\x04'  # код запроса
+        chunk += b'\x12'  # № параметра
+        chunk += b'\x00'  # BWRI (номер вспомогательного параметра)
+        chunk = self.crc16(chunk)
+        ser = self.open_port(self.port1)
+        ser.write(chunk)
+        time.sleep(100 / 1000)
+        open = ser.read_all()
+        open = list(open)
+        lengopen = len(open)
+        clYY = open[lengopen - 3]
+        clYY = format(clYY, 'x')
+        clMM = open[lengopen - 4]
+        clMM = format(clMM, 'x')
+        clDD = open[lengopen - 5]
+        clDD = format(clDD, 'x')
+        clhh = open[lengopen - 6]
+        clhh = format(clhh, 'x')
+        clmm = open[lengopen - 7]
+        clmm = format(clmm, 'x')
+        clss = open[lengopen - 8]
+        clss = format(clss, 'x')
+        openYY = open[lengopen - 9]
+        openYY = format(openYY, 'x')
+        openMM = open[lengopen - 10]
+        openMM = format(openMM, 'x')
+        openDD = open[lengopen - 11]
+        openDD = format(openDD, 'x')
+        openhh = open[lengopen - 12]
+        openhh = format(openhh, 'x')
+        openmm = open[lengopen - 13]
+        openmm = format(openmm, 'x')
+        openss = open[lengopen - 14]
+        openss = format(openss, 'x')
+
+        return "case opened : ", openhh, openmm, openss, openYY, openMM, openDD,  "\rn", "case closed : ", clhh, clmm, clss, clYY, clMM, clDD
 
     def get_frequency(self):
         chunk = self.addr  # сетевой адрес
@@ -800,10 +873,10 @@ class Mercury230:
 
 
 # merc = Mercury230(address, port)
-m230a = Mercury230(91, 'COM3')
-m230a.connect()
-# print(m230a.get_aux_fast())
-print("Серийный номер : ", m230a.get_sn()[0])
-print("Дата изготовления : ", m230a.get_sn()[1])
-# print(m230a.get_FW_version())
-m230a.disconnect()
+# m230a = Mercury230(91, 'COM3')
+# m230a.connect()
+# # print(m230a.get_aux_fast())
+# print("Серийный номер : ", m230a.get_sn()[0])
+# print("Дата изготовления : ", m230a.get_sn()[1])
+# # print(m230a.get_FW_version())
+# m230a.disconnect()

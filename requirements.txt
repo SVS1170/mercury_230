@@ -1,2 +1,4 @@
 bitstring
 pyserial
+psycopg2
+SQLAlchemy

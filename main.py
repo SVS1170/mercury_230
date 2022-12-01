@@ -29,3 +29,5 @@ def cycle_read():
         print(mercury_234.get_active_energy_current_day())
         mercury_234.disconnect()
         time.sleep(1)
+
+cycle_read()

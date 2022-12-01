@@ -28,7 +28,7 @@ class Mercury230:
     #     return ser
     def open_port(self, port1):
         ser = serial.Serial(f"{port1}", 9600, serial.EIGHTBITS, serial.PARITY_NONE, serial.STOPBITS_ONE)
-        ser.set_buffer_size(rx_size=25600, tx_size=25600)
+        # ser.set_buffer_size(rx_size=25600, tx_size=25600)
         # print('Connected:', ser.isOpen())
         return ser
 
@@ -104,7 +104,7 @@ class Mercury230:
         # print("disconnect")
         return "ok"
 
-    def connect(self):
+    def connect_user(self):
         chunk = self.addr  # сетевой адрес
         chunk += b'\x01'  # код запроса
         chunk += b'\x01'  # код уровня доступа
@@ -114,6 +114,22 @@ class Mercury230:
         chunk += b'\x01'  # 4 символ пароля
         chunk += b'\x01'  # 5 символ пароля
         chunk += b'\x01'  # 6 символ пароля
+        chunk = self.crc16(chunk)
+        ser = self.open_port(self.port1)
+        ser.write(chunk)
+        time.sleep(100 / 1000)
+        # print("connect")
+
+    def connect_admin(self):
+        chunk = self.addr  # сетевой адрес
+        chunk += b'\x01'  # код запроса
+        chunk += b'\x02'  # код уровня доступа
+        chunk += b'\x02'  # 1 символ пароля
+        chunk += b'\x02'  # 2 символ пароля
+        chunk += b'\x02'  # 3 символ пароля
+        chunk += b'\x02'  # 4 символ пароля
+        chunk += b'\x02'  # 5 символ пароля
+        chunk += b'\x02'  # 6 символ пароля
         chunk = self.crc16(chunk)
         ser = self.open_port(self.port1)
         ser.write(chunk)
@@ -686,16 +702,16 @@ class Mercury230:
         chunk += b'\x08'
         chunk += b'\x11'
         chunk += b'\x06'
-        chunk = self.crc16(chunk)
-        ser = self.open_port(self.port1)
-        time.sleep(100 / 1000)
-        outa = ser.read_all()
-        za = list(outa)
-        lenga = len(za)
-        a1 = za[lenga - 3]
-        a2 = za[lenga - 4]
-        A = format(a1, 'x') + format(a2, 'x')
-        QB = int(A, 16) / 100
+        # chunk = self.crc16(chunk)
+        # ser = self.open_port(self.port1)
+        # time.sleep(100 / 1000)
+        # outa = ser.read_all()
+        # za = list(outa)
+        # lenga = len(za)
+        # a1 = za[lenga - 3]
+        # a2 = za[lenga - 4]
+        # A = format(a1, 'x') + format(a2, 'x')
+        # QB = int(A, 16) / 100
         chunk = self.crc16(chunk)
         ser = self.open_port(self.port1)
         ser.write(chunk)
@@ -810,19 +826,21 @@ class Mercury230:
         chunk += b'\x0a'
         chunk = self.crc16(chunk)
         ser = self.open_port(self.port1)
-        time.sleep(100 / 1000)
-        outa = ser.read_all()
-        za = list(outa)
-        lenga = len(za)
-        a1 = za[lenga - 3]
-        a2 = za[lenga - 4]
-        A = format(a1, 'x') + format(a2, 'x')
-        SB = int(A, 16) / 100
-        chunk = self.crc16(chunk)
-        ser = self.open_port(self.port1)
         ser.write(chunk)
         time.sleep(100 / 1000)
         outa = ser.read_all()
+        # za = list(outa)
+        # lenga = len(za)
+        # a1 = za[lenga - 3]
+        # a2 = za[lenga - 4]
+        # A = format(a1, 'x') + format(a2, 'x')
+        # SB = int(A, 16) / 100
+        # chunk = self.crc16(chunk)
+        # ser = self.open_port(self.port1)
+        # ser.write(chunk)
+        # time.sleep(100 / 1000)
+        # outa = ser.read_all()
+        # print(outa)
         za = list(outa)
         lenga = len(za)
         a2 = za[lenga - 3]
@@ -942,8 +960,8 @@ class Mercury230:
 
 # merc = Mercury230(address, port)
 # m230a = Mercury230(91, 'COM3')
-# m230a.connect()
-# # print(m230a.get_aux_fast())
+# m230a.connect_user()
+# print(m230a.get_Q_A())
 # print("Серийный номер : ", m230a.get_sn()[0])
 # print("Дата изготовления : ", m230a.get_sn()[1])
 # # print(m230a.get_FW_version())

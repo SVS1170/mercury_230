@@ -8,37 +8,20 @@ import time
 import configparser
 from bitstring import BitArray
 
-
-# config = configparser.ConfigParser()
-# config.read("config.ini")  # читаем конфиг
-# address = int(config["counter"]["address"])
-# # address = chr(address)
-# # address = int(config["counter"]["address"])
-# port = config["counter"]["port"]
-
-
 class Mercury230:
     def __init__(self, address, port):
         self.addr = struct.pack('B', address)
         self.port1 = port
 
-    # def open_port():
-    #     ser = serial.Serial(f"{port}", 9600, serial.EIGHTBITS, serial.PARITY_NONE, serial.STOPBITS_ONE)
-    #     print('Connected:', ser.isOpen())
-    #     return ser
     def open_port(self, port1):
         ser = serial.Serial(f"{port1}", 9600, serial.EIGHTBITS, serial.PARITY_NONE, serial.STOPBITS_ONE)
-        # ser.set_buffer_size(rx_size=25600, tx_size=25600)
-        # print('Connected:', ser.isOpen())
         return ser
 
     def test_hex_to_bin(self):
         # a = addr
         a = b"\x80\x00\x40\xE7\x29\x00\x40\xE7\x29\x00\x00\x00\x00\x00\x00\x00\x0f"
         mybyte = bytes(a)
-        # c = BitArray(hex=mbyte)
         d = self.crc16(mybyte)
-        # ab = c.bin[2:]
         binary_string = "{:08b}".format(int(mybyte.hex(), 16))
         bd = list(binary_string)
 
@@ -91,7 +74,7 @@ class Mercury230:
         rs485addr = a1
         # print(a1)
         # print(rs485addr)
-        return rs485addr
+        return rs485addr, zdat
 
     def disconnect(self):
         chunk = self.addr  # сетевой адрес

@@ -1,14 +1,14 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-import argparse
-import serial
+# import argparse
+# import serial
 import struct
 import time
 import configparser
 from mercury230 import Mercury230
 import db_connector as db
-from bitstring import BitArray
+# from bitstring import BitArray
 
 config = configparser.ConfigParser()
 config.read("config.ini")  # читаем конфиг

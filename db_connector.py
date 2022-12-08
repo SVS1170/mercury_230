@@ -70,13 +70,6 @@ def insert_data_counter(name="counters"):
   commit()
 
 def insert_data_data(name="data",Ua = 0.00, Ub = 0.00, Uc = 0.00, Ia = 0.00, Ib = 0.00, Ic = 0.00, P = 0.00, Pa = 0.00, Pb = 0.00, Pc = 0.00, Qa = 0.00, Qb = 0.00, Qc = 0.00, Sa = 0.00, Sb = 0.00, Sc = 0.00, Tcase = 25.00, Tout = 20.00):
-  # con = psycopg2.connect(
-  #   database=config["database"]["db"],
-  #   user=config["database"]["user"],
-  #   password=config["database"]["passwd"],
-  #   host=config["database"]["host"],
-  #   port=int(config["database"]["port"])
-  # )
   cur = con.cursor()
   cur.execute(
     f"INSERT INTO {name} (SERIAL,DESCRIPTION,VOLTAGE_A,VOLTAGE_B,VOLTAGE_C,CURRENT_A,CURRENT_B,CURRENT_C,ACTIVE_POWER_FULL,"
@@ -135,4 +128,4 @@ def test():
 # create_table_data()
 # insert_data_data()
 # insert_data_counter('counters')
-test()
+# test()

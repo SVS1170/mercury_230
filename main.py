@@ -7,7 +7,7 @@ import struct
 import time
 import configparser
 from mercury230 import Mercury230
-import db_connector as db
+#import db_connector as db
 # from bitstring import BitArray
 
 config = configparser.ConfigParser()
@@ -45,7 +45,7 @@ def cycle_read():
         print("Sa : ", Sa, ", Sb : ", Sb, ", Sc : ", Sc)
         # print("summPa,Pb,Pc :", mercury_234.get_active_energy_phases())
         # print(mercury_234.get_active_energy_current_day())
-        db.insert_data_data('data', Ua, Ub, Uc, Ia, Ib, Ic, P, Pa, Pb, Pc, Qa, Qb, Qc, Sa, Sb, Sc, Tcase)
+#        db.insert_data_data('data', Ua, Ub, Uc, Ia, Ib, Ic, P, Pa, Pb, Pc, Qa, Qb, Qc, Sa, Sb, Sc, Tcase)
         mercury_234.disconnect()
         time.sleep(10)
 

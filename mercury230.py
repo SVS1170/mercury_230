@@ -9,12 +9,14 @@ import configparser
 from bitstring import BitArray
 
 class Mercury230:
-    def __init__(self, address, port):
+    def __init__(self, address, ipaddress, ipport):
         self.addr = struct.pack('B', address)
-        self.port1 = port
+        self.ipaddress1 = ipaddress
+        self.ipport1 = ipport
 
-    def open_port(self, port1):
-        ser = serial.Serial(f"{port1}", 9600, serial.EIGHTBITS, serial.PARITY_NONE, serial.STOPBITS_ONE)
+    def open_port(self, ipaddress1, ipport1):
+#        ser = serial.Serial(f"{port1}", 9600, serial.EIGHTBITS, serial.PARITY_NONE, serial.STOPBITS_ONE)
+        ser = serial.serial_for_url("socket://" + ipaddress1 + ":" + ipport1)
         return ser
 
     def test_hex_to_bin(self):
@@ -51,7 +53,7 @@ class Mercury230:
         chunk = self.addr
         chunk += b'\x00'
         chunk = self.crc16(chunk)
-        ser = self.open_port(self.port1)
+        ser = self.open_port(self.ipaddress1, self.ipport1)
         ser.write(chunk)
         time.sleep(100 / 1000)
         dat = ser.read_all()
@@ -63,7 +65,7 @@ class Mercury230:
         chunk += b'\x08'
         chunk += b'\x05'
         chunk = self.crc16(chunk)
-        ser = self.open_port(self.port1)
+        ser = self.open_port(self.ipaddress1, self.ipport1)
         ser.write(chunk)
         time.sleep(100 / 1000)
         dat = ser.read_all()
@@ -81,7 +83,7 @@ class Mercury230:
         chunk += b'\x02'  # код запроса
         chunk = self.crc16(chunk)
         # print("transmited : ",chunk)
-        ser = self.open_port(self.port1)
+        ser = self.open_port(self.ipaddress1, self.ipport1)
         ser.write(chunk)
         time.sleep(100 / 1000)
         # print("disconnect")
@@ -98,7 +100,7 @@ class Mercury230:
         chunk += b'\x01'  # 5 символ пароля
         chunk += b'\x01'  # 6 символ пароля
         chunk = self.crc16(chunk)
-        ser = self.open_port(self.port1)
+        ser = self.open_port(self.ipaddress1, self.ipport1)
         ser.write(chunk)
         time.sleep(100 / 1000)
         # print("connect")
@@ -114,7 +116,7 @@ class Mercury230:
         chunk += b'\x02'  # 5 символ пароля
         chunk += b'\x02'  # 6 символ пароля
         chunk = self.crc16(chunk)
-        ser = self.open_port(self.port1)
+        ser = self.open_port(self.ipaddress1, self.ipport1)
         ser.write(chunk)
         time.sleep(100 / 1000)
         # print("connect")
@@ -124,7 +126,7 @@ class Mercury230:
         chunk += b'\x08'
         chunk += b'\x03'
         chunk = self.crc16(chunk)
-        ser = self.open_port(self.port1)
+        ser = self.open_port(self.ipaddress1, self.ipport1)
         ser.write(chunk)
         time.sleep(100 / 1000)
         ver = ser.read_all()
@@ -147,7 +149,7 @@ class Mercury230:
         chunk += b'\xC0'  # на начало текущих суток
         chunk += b'\x00'  # по тарифу№ (по сумме тарифов - 0)
         chunk = self.crc16(chunk)
-        ser = self.open_port(self.port1)
+        ser = self.open_port(self.ipaddress1, self.ipport1)
         ser.write(chunk)
         time.sleep(100 / 1000)
         ver = ser.read_all()
@@ -168,7 +170,7 @@ class Mercury230:
         chunk += b'\xD0'  # на начало текущих суток
         chunk += b'\x00'  # по тарифу№ (по сумме тарифов - 0)
         chunk = self.crc16(chunk)
-        ser = self.open_port(self.port1)
+        ser = self.open_port(self.ipaddress1, self.ipport1)
         ser.write(chunk)
         time.sleep(100 / 1000)
         ver = ser.read_all()
@@ -189,7 +191,7 @@ class Mercury230:
         chunk += b'\x60'  # на начало текущих суток
         chunk += b'\x00'  # по тарифу№ (по сумме тарифов - 0)
         chunk = self.crc16(chunk)
-        ser = self.open_port(self.port1)
+        ser = self.open_port(self.ipaddress1, self.ipport1)
         ser.write(chunk)
         time.sleep(100 / 1000)
         ver = ser.read_all()
@@ -221,7 +223,7 @@ class Mercury230:
         chunk += b'\x08'
         chunk += b'\x01'
         chunk = self.crc16(chunk)
-        ser = self.open_port(self.port1)
+        ser = self.open_port(self.ipaddress1, self.ipport1)
         ser.write(chunk)
         time.sleep(100 / 1000)
         ver = ser.read_all()
@@ -255,7 +257,7 @@ class Mercury230:
         chunk += b'\x04'  # код запроса
         chunk += b'\x00'
         chunk = self.crc16(chunk)
-        ser = self.open_port(self.port1)
+        ser = self.open_port(self.ipaddress1, self.ipport1)
         ser.write(chunk)
         time.sleep(100 / 1000)
         tim = ser.read_all()
@@ -266,7 +268,7 @@ class Mercury230:
         chunk += b'\x08'  # код запроса
         chunk += b'\x26'
         chunk = self.crc16(chunk)
-        ser = self.open_port(self.port1)
+        ser = self.open_port(self.ipaddress1, self.ipport1)
         ser.write(chunk)
         time.sleep(100 / 1000)
         fw_crc = ser.read_all()
@@ -278,7 +280,7 @@ class Mercury230:
         chunk += b'\x21'  # № параметра
         chunk += b'\x03'  # BWRI (номер вспомогательного параметра)
         chunk = self.crc16(chunk)
-        ser = self.open_port(self.port1)
+        ser = self.open_port(self.ipaddress1, self.ipport1)
         ser.write(chunk)
         time.sleep(100 / 1000)
         porog = ser.read_all()
@@ -290,7 +292,7 @@ class Mercury230:
         chunk += b'\x08'
         chunk += b'\x00'
         chunk = self.crc16(chunk)
-        ser = self.open_port(self.port1)
+        ser = self.open_port(self.ipaddress1, self.ipport1)
         ser.write(chunk)
         time.sleep(1)
         sn = ser.read_all()
@@ -320,7 +322,7 @@ class Mercury230:
         chunk += b'\x11'  # № параметра
         chunk += b'\x70'  # BWRI (номер вспомогательного параметра)
         chunk = self.crc16(chunk)
-        ser = self.open_port(self.port1)
+        ser = self.open_port(self.ipaddress1, self.ipport1)
         ser.write(chunk)
         time.sleep(100 / 1000)
         temp = ser.read_all()
@@ -334,7 +336,7 @@ class Mercury230:
         chunk += b'\x12'  # № параметра
         chunk += b'\x00'  # BWRI (номер вспомогательного параметра)
         chunk = self.crc16(chunk)
-        ser = self.open_port(self.port1)
+        ser = self.open_port(self.ipaddress1, self.ipport1)
         ser.write(chunk)
         time.sleep(100 / 1000)
         open = ser.read_all()
@@ -373,7 +375,7 @@ class Mercury230:
         chunk += b'\x11'  # № параметра
         chunk += b'\x40'  # BWRI (номер вспомогательного параметра)
         chunk = self.crc16(chunk)
-        ser = self.open_port(self.port1)
+        ser = self.open_port(self.ipaddress1, self.ipport1)
         ser.write(chunk)
         time.sleep(100 / 1000)
         temp = ser.read_all()
@@ -392,7 +394,7 @@ class Mercury230:
         chunk += b'\x16'
         chunk += b'\xA0'
         chunk = self.crc16(chunk)
-        ser = self.open_port(self.port1)
+        ser = self.open_port(self.ipaddress1, self.ipport1)
         ser.write(chunk)
         time.sleep(100 / 1000)
         outdata = ser.read_all()
@@ -407,7 +409,7 @@ class Mercury230:
         chunk += b'\x11'  # № параметра
         chunk += b'\x11'  # BWRI (номер вспомогательного параметра)
         chunk = self.crc16(chunk)
-        ser = self.open_port(self.port1)
+        ser = self.open_port(self.ipaddress1, self.ipport1)
         ser.write(chunk)
         time.sleep(100 / 1000)
         outa = ser.read_all()
@@ -425,7 +427,7 @@ class Mercury230:
         chunk += b'\x11'
         chunk += b'\x11'
         chunk = self.crc16(chunk)
-        ser = self.open_port(self.port1)
+        ser = self.open_port(self.ipaddress1, self.ipport1)
         ser.write(chunk)
         time.sleep(100 / 1000)
         outa = ser.read_all()
@@ -443,7 +445,7 @@ class Mercury230:
         chunk += b'\x11'
         chunk += b'\x13'
         chunk = self.crc16(chunk)
-        ser = self.open_port(self.port1)
+        ser = self.open_port(self.ipaddress1, self.ipport1)
         ser.write(chunk)
         time.sleep(100 / 1000)
         outa = ser.read_all()
@@ -461,7 +463,7 @@ class Mercury230:
         chunk += b'\x11'
         chunk += b'\x21'
         chunk = self.crc16(chunk)
-        ser = self.open_port(self.port1)
+        ser = self.open_port(self.ipaddress1, self.ipport1)
         ser.write(chunk)
         time.sleep(100 / 1000)
         outa = ser.read_all()
@@ -479,7 +481,7 @@ class Mercury230:
         chunk += b'\x11'
         chunk += b'\x22'
         chunk = self.crc16(chunk)
-        ser = self.open_port(self.port1)
+        ser = self.open_port(self.ipaddress1, self.ipport1)
         ser.write(chunk)
         time.sleep(100 / 1000)
         outa = ser.read_all()
@@ -497,7 +499,7 @@ class Mercury230:
         chunk += b'\x11'
         chunk += b'\x23'
         chunk = self.crc16(chunk)
-        ser = self.open_port(self.port1)
+        ser = self.open_port(self.ipaddress1, self.ipport1)
         ser.write(chunk)
         time.sleep(100 / 1000)
         outa = ser.read_all()
@@ -515,7 +517,7 @@ class Mercury230:
         chunk += b'\x11'
         chunk += b'\x00'
         chunk = self.crc16(chunk)
-        ser = self.open_port(self.port1)
+        ser = self.open_port(self.ipaddress1, self.ipport1)
         ser.write(chunk)
         time.sleep(100 / 1000)
         outa = ser.read_all()
@@ -541,7 +543,7 @@ class Mercury230:
         chunk += b'\x11'
         chunk += b'\x01'
         chunk = self.crc16(chunk)
-        ser = self.open_port(self.port1)
+        ser = self.open_port(self.ipaddress1, self.ipport1)
         ser.write(chunk)
         time.sleep(100 / 1000)
         outa = ser.read_all()
@@ -570,7 +572,7 @@ class Mercury230:
         chunk += b'\x11'
         chunk += b'\x02'
         chunk = self.crc16(chunk)
-        ser = self.open_port(self.port1)
+        ser = self.open_port(self.ipaddress1, self.ipport1)
         ser.write(chunk)
         time.sleep(100 / 1000)
         outa = ser.read_all()
@@ -599,7 +601,7 @@ class Mercury230:
         chunk += b'\x11'
         chunk += b'\x03'
         chunk = self.crc16(chunk)
-        ser = self.open_port(self.port1)
+        ser = self.open_port(self.ipaddress1, self.ipport1)
         ser.write(chunk)
         time.sleep(100 / 1000)
         outa = ser.read_all()
@@ -628,7 +630,7 @@ class Mercury230:
         chunk += b'\x11'
         chunk += b'\x04'
         chunk = self.crc16(chunk)
-        ser = self.open_port(self.port1)
+        ser = self.open_port(self.ipaddress1, self.ipport1)
         ser.write(chunk)
         time.sleep(100 / 1000)
         outa = ser.read_all()
@@ -657,7 +659,7 @@ class Mercury230:
         chunk += b'\x11'
         chunk += b'\x05'
         chunk = self.crc16(chunk)
-        ser = self.open_port(self.port1)
+        ser = self.open_port(self.ipaddress1, self.ipport1)
         ser.write(chunk)
         time.sleep(100 / 1000)
         outa = ser.read_all()
@@ -686,7 +688,7 @@ class Mercury230:
         chunk += b'\x11'
         chunk += b'\x06'
         # chunk = self.crc16(chunk)
-        # ser = self.open_port(self.port1)
+        # ser = self.open_port(self.ipaddress1, self.ipport1)
         # time.sleep(100 / 1000)
         # outa = ser.read_all()
         # za = list(outa)
@@ -696,7 +698,7 @@ class Mercury230:
         # A = format(a1, 'x') + format(a2, 'x')
         # QB = int(A, 16) / 100
         chunk = self.crc16(chunk)
-        ser = self.open_port(self.port1)
+        ser = self.open_port(self.ipaddress1, self.ipport1)
         ser.write(chunk)
         time.sleep(100 / 1000)
         outa = ser.read_all()
@@ -725,7 +727,7 @@ class Mercury230:
         chunk += b'\x11'
         chunk += b'\x07'
         chunk = self.crc16(chunk)
-        ser = self.open_port(self.port1)
+        ser = self.open_port(self.ipaddress1, self.ipport1)
         ser.write(chunk)
         time.sleep(100 / 1000)
         outa = ser.read_all()
@@ -754,7 +756,7 @@ class Mercury230:
         chunk += b'\x11'
         chunk += b'\x08'
         chunk = self.crc16(chunk)
-        ser = self.open_port(self.port1)
+        ser = self.open_port(self.ipaddress1, self.ipport1)
         ser.write(chunk)
         time.sleep(100 / 1000)
         outa = ser.read_all()
@@ -781,7 +783,7 @@ class Mercury230:
         chunk += b'\x11'
         chunk += b'\x09'
         chunk = self.crc16(chunk)
-        ser = self.open_port(self.port1)
+        ser = self.open_port(self.ipaddress1, self.ipport1)
         ser.write(chunk)
         time.sleep(100 / 1000)
         outa = ser.read_all()
@@ -808,7 +810,7 @@ class Mercury230:
         chunk += b'\x11'
         chunk += b'\x0a'
         chunk = self.crc16(chunk)
-        ser = self.open_port(self.port1)
+        ser = self.open_port(self.ipaddress1, self.ipport1)
         ser.write(chunk)
         time.sleep(100 / 1000)
         outa = ser.read_all()
@@ -819,7 +821,7 @@ class Mercury230:
         # A = format(a1, 'x') + format(a2, 'x')
         # SB = int(A, 16) / 100
         # chunk = self.crc16(chunk)
-        # ser = self.open_port(self.port1)
+        # ser = self.open_port(self.ipaddress1, self.ipport1)
         # ser.write(chunk)
         # time.sleep(100 / 1000)
         # outa = ser.read_all()
@@ -846,7 +848,7 @@ class Mercury230:
         chunk += b'\x11'
         chunk += b'\x0b'
         chunk = self.crc16(chunk)
-        ser = self.open_port(self.port1)
+        ser = self.open_port(self.ipaddress1, self.ipport1)
         ser.write(chunk)
         time.sleep(100 / 1000)
         outa = ser.read_all()
@@ -872,7 +874,7 @@ class Mercury230:
     #     chunk += b'\x11'
     #     chunk += b'\x30'
     #     chunk = self.crc16(chunk)
-    #     ser = self.open_port(self.port1)
+    #     ser = self.open_port(self.ipaddress1, self.ipport1)
     #     time.sleep(100/1000)
     #     outa = ser.read_all()
     #     # za = list(outa)
@@ -891,7 +893,7 @@ class Mercury230:
     #     chunk += b'\x11'
     #     chunk += b'\x31'
     #     chunk = self.crc16(chunk)
-    #     ser = self.open_port(self.port1)
+    #     ser = self.open_port(self.ipaddress1, self.ipport1)
     #     time.sleep(100/1000)
     #     outa = ser.read_all()
     #     # za = list(outa)
@@ -910,7 +912,7 @@ class Mercury230:
     #     chunk += b'\x11'
     #     chunk += b'\x32'
     #     chunk = self.crc16(chunk)
-    #     ser = self.open_port(self.port1)
+    #     ser = self.open_port(self.ipaddress1, self.ipport1)
     #     time.sleep(100/1000)
     #     outa = ser.read_all()
     #     # za = list(outa)
@@ -929,7 +931,7 @@ class Mercury230:
     #     chunk += b'\x11'
     #     chunk += b'\x33'
     #     chunk = self.crc16(chunk)
-    #     ser = self.open_port(self.port1)
+    #     ser = self.open_port(self.ipaddress1, self.ipport1)
     #     time.sleep(100/1000)
     #     outa = ser.read_all()
     #     # za = list(outa)

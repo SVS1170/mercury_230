@@ -13,10 +13,11 @@ from mercury230 import Mercury230
 config = configparser.ConfigParser()
 config.read("config.ini")  # читаем конфиг
 address = int(config["counter"]["address"])
-addr = struct.pack('B', address)
-port = config["counter"]["port"]
+#addr = struct.pack('B', address)
+ipaddress = config["counter"]["ipaddress"]
+ipport = config["counter"]["ipport"]
 r = True
-mercury_234 = Mercury230(address, port)
+mercury_234 = Mercury230(address, ipaddress, ipport)
 
 def cycle_read():
     while r == True:

@@ -57,9 +57,9 @@ class Mercury230:
         ser = self.open_port(self.ipaddress1, self.ipport1)
         print ('Connected:', ser.isOpen())
         ser.write(chunk)
-        time.sleep(100 / 1000)
-        bytesToRead = ser.inWaiting()
-        dat = ser.read(bytesToRead)
+#        time.sleep(100 / 1000)
+#        bytesToRead = ser.inWaiting()
+        dat = ser.read(4)
         print(dat)
 
     def search_counter(self):

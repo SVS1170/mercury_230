@@ -57,7 +57,7 @@ class Mercury230:
         ser = self.open_port(self.ipaddress1, self.ipport1)
         print ('Connected:', ser.isOpen())
         ser.write(chunk)
-        time.sleep(100 / 100)
+        time.sleep(100 / 50)
         dat = ser.read_all()
         print(dat)
 

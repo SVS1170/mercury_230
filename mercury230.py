@@ -414,6 +414,7 @@ class Mercury230:
         time.sleep(100 / 1000)
         outa = ser.read_all()
         za = list(outa)
+        print(za)
         lenga = len(za)
         a1 = za[lenga - 3]
         a2 = za[lenga - 4]

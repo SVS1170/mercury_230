@@ -51,14 +51,12 @@ class Mercury230:
 
     def connection_test(self):
         chunk = self.addr
-        print(chunk)
         chunk += b'\x00'
-        print(chunk)
         chunk = self.crc16(chunk)
         print(chunk)
         ser = self.open_port(self.ipaddress1, self.ipport1)
         print ('Connected:', ser.isOpen())
-        ser.write(chunk)
+#        ser.write(chunk)
         time.sleep(100 / 1000)
         dat = ser.read_all()
         print(dat)

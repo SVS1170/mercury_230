@@ -58,7 +58,8 @@ class Mercury230:
         print ('Connected:', ser.isOpen())
         ser.write(chunk)
         time.sleep(100 / 1000)
-        dat = ser.read(ser.inWaiting())
+        bytesToRead = ser.inWaiting()
+        dat = ser.read(bytesToRead)
         print(dat)
 
     def search_counter(self):

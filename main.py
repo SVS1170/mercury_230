@@ -23,9 +23,9 @@ mercury_234 = Mercury230(address, ipaddress, ipport)
 
 def cycle_read():
     while r == True:
-#        mercury_234.connect_user()
+        mercury_234.connect_user()
         mercury_234.connection_test()
-#        Ua = mercury_234.get_voltage_A()
+        Ua = mercury_234.get_voltage_A()
 #        Ub = mercury_234.get_voltage_B()
 #        Uc = mercury_234.get_voltage_C()
 #        Ia = mercury_234.get_current_A()
@@ -42,7 +42,7 @@ def cycle_read():
 #        Sb = mercury_234.get_S_B()
 #        Sc = mercury_234.get_S_C()
 #        Tcase = mercury_234.get_temp()
-#        print("Ua : ", Ua, ", Ub : ", Ub, ", Uc : ", Uc)
+        print("Ua : ", Ua, ", Ub : ", Ub, ", Uc : ", Uc)
 #        print("Ia : ", Ia, ", Ib : ", Ib, ", Ic : ", Ic)
 #        print("Pa : ", Pa, ", Pb : ", Pb, ", Pc : ", Pc)
 #        print("Qa : ", Qa, ", Qb : ", Qb, ", Qc : ", Qc)

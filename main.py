@@ -53,10 +53,11 @@ def cycle_read():
         # print("summPa,Pb,Pc :", mercury_234.get_active_energy_phases())
         # print(mercury_234.get_active_energy_current_day())
 #        db.insert_data_data('data', Ua, Ub, Uc, Ia, Ib, Ic, P, Pa, Pb, Pc, Qa, Qb, Qc, Sa, Sb, Sc, Tcase)
-        person_dict = {"Ua": Ua,
+        json_string = {"Ua": Ua,
         "Ub": Ub, "Uc": Uc,
         "Ia": Ia
         }
+        print(json_string)
         mercury_234.disconnect()
         time.sleep(5)
 

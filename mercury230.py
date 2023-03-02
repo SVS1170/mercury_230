@@ -336,10 +336,12 @@ class Mercury230:
         ser.write(chunk)
 #        time.sleep(100 / 1000)
         temp = ser.read(6)
-        print ('Check CRC:', temp[-2:] == self.crc16(temp[:-2])[-2:])
-        za = list(temp)
-        temp = int(za[2]) / 10
-        return temp
+        if temp[-2:] == self.crc16(temp[:-2])[-2:]):
+#            print ('Check CRC:', temp[-2:] == self.crc16(temp[:-2])[-2:])
+            za = list(temp)
+            temp = int(za[2]) / 10
+            return temp
+        return "crc_false"
 
     def get_caseopen(self):
         chunk = self.addr  # сетевой адрес

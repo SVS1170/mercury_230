@@ -161,8 +161,10 @@ class Mercury230:
         ser = self.open_port(self.ipaddress1, self.ipport1)
         ser.timeout = 0.4
         ser.write(chunk)
+        print(chunk)
 #        time.sleep(100 / 1000)
         ver = ser.read(20)
+        print(ver)
         if ver[-2:] == self.crc16(ver[:-2])[-2:]:
             za = list(ver)
             # print(za)

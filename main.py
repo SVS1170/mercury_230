@@ -105,7 +105,7 @@ def cycle_read():
         json_string2 = '"Ia": "' + str(Ia) + '", "Ib": "' + str(Ib) + '", "Ic": "' + str(Ic) + '"'
         json_string_end = '{' + json_string1 + ',' + json_string2 + '}'
 #        json_object = json.loads(json_string)
-        print(json_string)
+        print(json_string_end)
         client.publish(mqtt_topic, json_string_end, 1)
         mercury_234.disconnect()
         time.sleep(5)

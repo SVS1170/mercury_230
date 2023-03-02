@@ -430,13 +430,15 @@ class Mercury230:
         ser.write(chunk)
 #        time.sleep(100 / 1000)
         outa = ser.read(6)
-        za = list(outa)
-        lenga = len(za)
-        a1 = za[lenga - 3]
-        a2 = za[lenga - 4]
-        A = format(a1, 'x') + format(a2, 'x')
-        voltage_A = int(A, 16) / 100
-        return voltage_A
+        if temp[-2:] == self.crc16(temp[:-2])[-2:]:
+            za = list(outa)
+            lenga = len(za)
+            a1 = za[lenga - 3]
+            a2 = za[lenga - 4]
+            A = format(a1, 'x') + format(a2, 'x')
+            voltage_A = int(A, 16) / 100
+            return voltage_A
+        return "crc_false"
 
     def get_voltage_B(self):
         chunk = self.addr
@@ -449,13 +451,15 @@ class Mercury230:
         ser.write(chunk)
 #        time.sleep(100 / 1000)
         outa = ser.read(6)
-        za = list(outa)
-        lenga = len(za)
-        a1 = za[lenga - 3]
-        a2 = za[lenga - 4]
-        A = format(a1, 'x') + format(a2, 'x')
-        voltage_B = int(A, 16) / 100
-        return voltage_B
+        if temp[-2:] == self.crc16(temp[:-2])[-2:]:
+            za = list(outa)
+            lenga = len(za)
+            a1 = za[lenga - 3]
+            a2 = za[lenga - 4]
+            A = format(a1, 'x') + format(a2, 'x')
+            voltage_B = int(A, 16) / 100
+            return voltage_B
+        return "crc_false"
 
     def get_voltage_C(self):
         chunk = self.addr
@@ -468,13 +472,15 @@ class Mercury230:
         ser.write(chunk)
 #        time.sleep(100 / 1000)
         outa = ser.read(6)
-        za = list(outa)
-        lenga = len(za)
-        a1 = za[lenga - 3]
-        a2 = za[lenga - 4]
-        A = format(a1, 'x') + format(a2, 'x')
-        voltage_C = int(A, 16) / 100
-        return voltage_C
+        if temp[-2:] == self.crc16(temp[:-2])[-2:]:
+            za = list(outa)
+            lenga = len(za)
+            a1 = za[lenga - 3]
+            a2 = za[lenga - 4]
+            A = format(a1, 'x') + format(a2, 'x')
+            voltage_C = int(A, 16) / 100
+            return voltage_C
+        return "crc_false"
 
     def get_current_A(self):
         chunk = self.addr
@@ -487,13 +493,15 @@ class Mercury230:
         ser.write(chunk)
 #        time.sleep(100 / 1000)
         outa = ser.read(6)
-        za = list(outa)
-        lenga = len(za)
-        a1 = za[lenga - 3]
-        a2 = za[lenga - 4]
-        A = format(a1, 'x') + format(a2, 'x')
-        current_A = int(A, 16) / 1000
-        return current_A
+        if temp[-2:] == self.crc16(temp[:-2])[-2:]:
+            za = list(outa)
+            lenga = len(za)
+            a1 = za[lenga - 3]
+            a2 = za[lenga - 4]
+            A = format(a1, 'x') + format(a2, 'x')
+            current_A = int(A, 16) / 1000
+            return current_A
+        return "crc_false"
 
     def get_current_B(self):
         chunk = self.addr
@@ -506,13 +514,15 @@ class Mercury230:
         ser.write(chunk)
 #        time.sleep(100 / 1000)
         outa = ser.read(6)
-        za = list(outa)
-        lenga = len(za)
-        a1 = za[lenga - 3]
-        a2 = za[lenga - 4]
-        A = format(a1, 'x') + format(a2, 'x')
-        current_B = int(A, 16) / 1000
-        return current_B
+        if temp[-2:] == self.crc16(temp[:-2])[-2:]:
+            za = list(outa)
+            lenga = len(za)
+            a1 = za[lenga - 3]
+            a2 = za[lenga - 4]
+            A = format(a1, 'x') + format(a2, 'x')
+            current_B = int(A, 16) / 1000
+            return current_B
+        return "crc_false"
 
     def get_current_C(self):
         chunk = self.addr
@@ -525,13 +535,15 @@ class Mercury230:
         ser.write(chunk)
 #        time.sleep(100 / 1000)
         outa = ser.read(6)
-        za = list(outa)
-        lenga = len(za)
-        a1 = za[lenga - 3]
-        a2 = za[lenga - 4]
-        A = format(a1, 'x') + format(a2, 'x')
-        current_C = int(A, 16) / 1000
-        return current_C
+        if temp[-2:] == self.crc16(temp[:-2])[-2:]:
+            za = list(outa)
+            lenga = len(za)
+            a1 = za[lenga - 3]
+            a2 = za[lenga - 4]
+            A = format(a1, 'x') + format(a2, 'x')
+            current_C = int(A, 16) / 1000
+            return current_C
+        return "crc_false"
 
     def get_P(self):
         chunk = self.addr
@@ -544,21 +556,23 @@ class Mercury230:
         ser.write(chunk)
 #        time.sleep(100 / 1000)
         outa = ser.read(6)
-        za = list(outa)
-        lenga = len(za)
-        a2 = za[lenga - 3]
-        a3 = za[lenga - 4]
-        a1a = za[lenga - 5]
-        mybyte = a1a
-        binary_string = "{:08b}".format(int(mybyte))
-        bd = list(binary_string)
-        AR = bd[0]
-        RR = bd[1]
-        a1 = ''.join(bd[2:8])
-        a1b = hex(int(a1, 2))
-        A = a1b + format(a2, 'x') + format(a3, 'x')
-        P = int(A, 16) / 100
-        return P
+        if temp[-2:] == self.crc16(temp[:-2])[-2:]:
+            za = list(outa)
+            lenga = len(za)
+            a2 = za[lenga - 3]
+            a3 = za[lenga - 4]
+            a1a = za[lenga - 5]
+            mybyte = a1a
+            binary_string = "{:08b}".format(int(mybyte))
+            bd = list(binary_string)
+           AR = bd[0]
+           RR = bd[1]
+           a1 = ''.join(bd[2:8])
+           a1b = hex(int(a1, 2))
+           A = a1b + format(a2, 'x') + format(a3, 'x')
+           P = int(A, 16) / 100
+           return P
+        return "crc_false"
 
     def get_P_A(self):
         chunk = self.addr
@@ -571,24 +585,26 @@ class Mercury230:
         ser.write(chunk)
 #        time.sleep(100 / 1000)
         outa = ser.read(6)
-        za = list(outa)
-        lenga = len(za)
-        a2 = za[lenga - 3]
-        a3 = za[lenga - 4]
-        a1a = za[lenga - 5]
-        mybyte = a1a
-        binary_string = "{:08b}".format(int(mybyte))
-        bd = list(binary_string)
-        AR = bd[0]
-        RR = bd[1]
-        a1 = ''.join(bd[2:8])
-        a1b = hex(int(a1, 2))
-        A = a1b + format(a2, 'x') + format(a3, 'x')
-        k = -1
-        PA = int(A, 16) / 100
-        if AR:
-            PA = PA * k
-        return PA
+        if temp[-2:] == self.crc16(temp[:-2])[-2:]:
+            za = list(outa)
+            lenga = len(za)
+            a2 = za[lenga - 3]
+            a3 = za[lenga - 4]
+            a1a = za[lenga - 5]
+            mybyte = a1a
+            binary_string = "{:08b}".format(int(mybyte))
+            bd = list(binary_string)
+            AR = bd[0]
+            RR = bd[1]
+            a1 = ''.join(bd[2:8])
+            a1b = hex(int(a1, 2))
+            A = a1b + format(a2, 'x') + format(a3, 'x')
+            k = -1
+            PA = int(A, 16) / 100
+            if AR:
+                PA = PA * k
+            return PA
+        return "crc_false"
 
     def get_P_B(self):
         chunk = self.addr
@@ -601,24 +617,26 @@ class Mercury230:
         ser.write(chunk)
 #        time.sleep(100 / 1000)
         outa = ser.read(6)
-        za = list(outa)
-        lenga = len(za)
-        a2 = za[lenga - 3]
-        a3 = za[lenga - 4]
-        a1a = za[lenga - 5]
-        mybyte = a1a
-        binary_string = "{:08b}".format(int(mybyte))
-        bd = list(binary_string)
-        AR = bd[0]
-        RR = bd[1]
-        a1 = ''.join(bd[2:8])
-        a1b = hex(int(a1, 2))
-        A = a1b + format(a2, 'x') + format(a3, 'x')
-        PB = int(A, 16) / 100
-        k = -1
-        if AR:
-            PB = PB * k
-        return PB
+        if temp[-2:] == self.crc16(temp[:-2])[-2:]:
+            za = list(outa)
+            lenga = len(za)
+            a2 = za[lenga - 3]
+            a3 = za[lenga - 4]
+            a1a = za[lenga - 5]
+            mybyte = a1a
+            binary_string = "{:08b}".format(int(mybyte))
+            bd = list(binary_string)
+            AR = bd[0]
+            RR = bd[1]
+            a1 = ''.join(bd[2:8])
+            a1b = hex(int(a1, 2))
+            A = a1b + format(a2, 'x') + format(a3, 'x')
+            PB = int(A, 16) / 100
+            k = -1
+            if AR:
+                PB = PB * k
+            return PB
+        return "crc_false"
 
     def get_P_C(self):
         chunk = self.addr
@@ -631,24 +649,26 @@ class Mercury230:
         ser.write(chunk)
 #        time.sleep(100 / 1000)
         outa = ser.read(6)
-        za = list(outa)
-        lenga = len(za)
-        a2 = za[lenga - 3]
-        a3 = za[lenga - 4]
-        a1a = za[lenga - 5]
-        mybyte = a1a
-        binary_string = "{:08b}".format(int(mybyte))
-        bd = list(binary_string)
-        AR = bd[0]
-        RR = bd[1]
-        a1 = ''.join(bd[2:8])
-        a1b = hex(int(a1, 2))
-        A = a1b + format(a2, 'x') + format(a3, 'x')
-        PC = int(A, 16) / 100
-        k = -1
-        if AR:
-            PC = PC * k
-        return PC
+        if temp[-2:] == self.crc16(temp[:-2])[-2:]:
+            za = list(outa)
+            lenga = len(za)
+            a2 = za[lenga - 3]
+            a3 = za[lenga - 4]
+            a1a = za[lenga - 5]
+            mybyte = a1a
+            binary_string = "{:08b}".format(int(mybyte))
+            bd = list(binary_string)
+            AR = bd[0]
+            RR = bd[1]
+            a1 = ''.join(bd[2:8])
+            a1b = hex(int(a1, 2))
+            A = a1b + format(a2, 'x') + format(a3, 'x')
+            PC = int(A, 16) / 100
+            k = -1
+            if AR:
+                PC = PC * k
+            return PC
+        return "crc_false"
 
     def get_Q(self):
         chunk = self.addr
@@ -661,24 +681,26 @@ class Mercury230:
         ser.write(chunk)
 #        time.sleep(100 / 1000)
         outa = ser.read(6)
-        za = list(outa)
-        lenga = len(za)
-        a2 = za[lenga - 3]
-        a3 = za[lenga - 4]
-        a1a = za[lenga - 5]
-        mybyte = a1a
-        binary_string = "{:08b}".format(int(mybyte))
-        bd = list(binary_string)
-        AR = bd[0]
-        RR = bd[1]
-        a1 = ''.join(bd[2:8])
-        a1b = hex(int(a1, 2))
-        A = a1b + format(a2, 'x') + format(a3, 'x')
-        Q = int(A, 16) / 100
-        k = -1
-        if RR:
-            Q = Q * k
-        return Q
+        if temp[-2:] == self.crc16(temp[:-2])[-2:]:
+            za = list(outa)
+            lenga = len(za)
+            a2 = za[lenga - 3]
+            a3 = za[lenga - 4]
+            a1a = za[lenga - 5]
+            mybyte = a1a
+            binary_string = "{:08b}".format(int(mybyte))
+            bd = list(binary_string)
+            AR = bd[0]
+            RR = bd[1]
+            a1 = ''.join(bd[2:8])
+            a1b = hex(int(a1, 2))
+            A = a1b + format(a2, 'x') + format(a3, 'x')
+            Q = int(A, 16) / 100
+            k = -1
+            if RR:
+                Q = Q * k
+            return Q
+        return "crc_false"
 
     def get_Q_A(self):
         chunk = self.addr
@@ -691,64 +713,58 @@ class Mercury230:
         ser.write(chunk)
 #        time.sleep(100 / 1000)
         outa = ser.read(6)
-        za = list(outa)
-        lenga = len(za)
-        a2 = za[lenga - 3]
-        a3 = za[lenga - 4]
-        a1a = za[lenga - 5]
-        mybyte = a1a
-        binary_string = "{:08b}".format(int(mybyte))
-        bd = list(binary_string)
-        AR = bd[0]
-        RR = bd[1]
-        a1 = ''.join(bd[2:8])
-        a1b = hex(int(a1, 2))
-        A = a1b + format(a2, 'x') + format(a3, 'x')
-        QA = int(A, 16) / 100
-        k = -1
-        if RR:
-            QA = QA * k
-        return QA
+        if temp[-2:] == self.crc16(temp[:-2])[-2:]:
+            za = list(outa)
+            lenga = len(za)
+            a2 = za[lenga - 3]
+            a3 = za[lenga - 4]
+            a1a = za[lenga - 5]
+            mybyte = a1a
+            binary_string = "{:08b}".format(int(mybyte))
+            bd = list(binary_string)
+            AR = bd[0]
+            RR = bd[1]
+            a1 = ''.join(bd[2:8])
+            a1b = hex(int(a1, 2))
+            A = a1b + format(a2, 'x') + format(a3, 'x')
+            QA = int(A, 16) / 100
+            k = -1
+            if RR:
+                QA = QA * k
+            return QA
+        return "crc_false"
 
     def get_Q_B(self):
         chunk = self.addr
         chunk += b'\x08'
         chunk += b'\x11'
         chunk += b'\x06'
-        # chunk = self.crc16(chunk)
-        # ser = self.open_port(self.ipaddress1, self.ipport1)
-        # time.sleep(100 / 1000)
-        # outa = ser.read_all()
-        # za = list(outa)
-        # lenga = len(za)
-        # a1 = za[lenga - 3]
-        # a2 = za[lenga - 4]
-        # A = format(a1, 'x') + format(a2, 'x')
-        # QB = int(A, 16) / 100
         chunk = self.crc16(chunk)
         ser = self.open_port(self.ipaddress1, self.ipport1)
         ser.timeout = 0.2
         ser.write(chunk)
 #        time.sleep(100 / 1000)
         outa = ser.read(6)
-        za = list(outa)
-        lenga = len(za)
-        a2 = za[lenga - 3]
-        a3 = za[lenga - 4]
-        a1a = za[lenga - 5]
-        mybyte = a1a
-        binary_string = "{:08b}".format(int(mybyte))
-        bd = list(binary_string)
-        AR = bd[0]
-        RR = bd[1]
-        a1 = ''.join(bd[2:8])
-        a1b = hex(int(a1, 2))
-        A = a1b + format(a2, 'x') + format(a3, 'x')
-        QB = int(A, 16) / 100
-        k = -1
-        if RR:
-            QB = QB * k
-        return QB
+        if temp[-2:] == self.crc16(temp[:-2])[-2:]:
+            za = list(outa)
+            lenga = len(za)
+            a2 = za[lenga - 3]
+            a3 = za[lenga - 4]
+            a1a = za[lenga - 5]
+            mybyte = a1a
+            binary_string = "{:08b}".format(int(mybyte))
+            bd = list(binary_string)
+            AR = bd[0]
+            RR = bd[1]
+            a1 = ''.join(bd[2:8])
+            a1b = hex(int(a1, 2))
+            A = a1b + format(a2, 'x') + format(a3, 'x')
+            QB = int(A, 16) / 100
+            k = -1
+            if RR:
+                QB = QB * k
+            return QB
+        return "crc_false"
 
     def get_Q_C(self):
         chunk = self.addr
@@ -761,24 +777,26 @@ class Mercury230:
         ser.write(chunk)
 #        time.sleep(100 / 1000)
         outa = ser.read(6)
-        za = list(outa)
-        lenga = len(za)
-        a2 = za[lenga - 3]
-        a3 = za[lenga - 4]
-        a1a = za[lenga - 5]
-        mybyte = a1a
-        binary_string = "{:08b}".format(int(mybyte))
-        bd = list(binary_string)
-        AR = bd[0]
-        RR = bd[1]
-        a1 = ''.join(bd[2:8])
-        a1b = hex(int(a1, 2))
-        A = a1b + format(a2, 'x') + format(a3, 'x')
-        QC = int(A, 16) / 100
-        k = -1
-        if RR:
-            QC = QC * k
-        return QC
+        if temp[-2:] == self.crc16(temp[:-2])[-2:]:
+            za = list(outa)
+            lenga = len(za)
+            a2 = za[lenga - 3]
+            a3 = za[lenga - 4]
+            a1a = za[lenga - 5]
+            mybyte = a1a
+            binary_string = "{:08b}".format(int(mybyte))
+            bd = list(binary_string)
+            AR = bd[0]
+            RR = bd[1]
+            a1 = ''.join(bd[2:8])
+            a1b = hex(int(a1, 2))
+            A = a1b + format(a2, 'x') + format(a3, 'x')
+            QC = int(A, 16) / 100
+            k = -1
+            if RR:
+                QC = QC * k
+            return QC
+        return "crc_false"
 
     def get_S(self):
         chunk = self.addr
@@ -791,22 +809,23 @@ class Mercury230:
         ser.write(chunk)
 #        time.sleep(100 / 1000)
         outa = ser.read(6)
-        za = list(outa)
-        lenga = len(za)
-        a2 = za[lenga - 3]
-        a3 = za[lenga - 4]
-        a1a = za[lenga - 5]
-        mybyte = a1a
-        binary_string = "{:08b}".format(int(mybyte))
-        bd = list(binary_string)
-        AR = bd[0]
-        RR = bd[1]
-        a1 = ''.join(bd[2:8])
-        a1b = hex(int(a1, 2))
-        A = a1b + format(a2, 'x') + format(a3, 'x')
-        S = int(A, 16) / 100
-
-        return S
+        if temp[-2:] == self.crc16(temp[:-2])[-2:]:
+            za = list(outa)
+            lenga = len(za)
+            a2 = za[lenga - 3]
+            a3 = za[lenga - 4]
+            a1a = za[lenga - 5]
+            mybyte = a1a
+            binary_string = "{:08b}".format(int(mybyte))
+            bd = list(binary_string)
+            AR = bd[0]
+            RR = bd[1]
+            a1 = ''.join(bd[2:8])
+            a1b = hex(int(a1, 2))
+            A = a1b + format(a2, 'x') + format(a3, 'x')
+            S = int(A, 16) / 100
+            return S
+        return "crc_false"
 
     def get_S_A(self):
         chunk = self.addr
@@ -819,22 +838,23 @@ class Mercury230:
         ser.write(chunk)
 #        time.sleep(100 / 1000)
         outa = ser.read(6)
-        za = list(outa)
-        lenga = len(za)
-        a2 = za[lenga - 3]
-        a3 = za[lenga - 4]
-        a1a = za[lenga - 5]
-        mybyte = a1a
-        binary_string = "{:08b}".format(int(mybyte))
-        bd = list(binary_string)
-        AR = bd[0]
-        RR = bd[1]
-        a1 = ''.join(bd[2:8])
-        a1b = hex(int(a1, 2))
-        A = a1b + format(a2, 'x') + format(a3, 'x')
-        SA = int(A, 16) / 100
-
-        return SA
+        if temp[-2:] == self.crc16(temp[:-2])[-2:]:
+            za = list(outa)
+            lenga = len(za)
+            a2 = za[lenga - 3]
+            a3 = za[lenga - 4]
+            a1a = za[lenga - 5]
+            mybyte = a1a
+            binary_string = "{:08b}".format(int(mybyte))
+            bd = list(binary_string)
+            AR = bd[0]
+            RR = bd[1]
+            a1 = ''.join(bd[2:8])
+            a1b = hex(int(a1, 2))
+            A = a1b + format(a2, 'x') + format(a3, 'x')
+            SA = int(A, 16) / 100
+            return SA
+        return "crc_false"
 
     def get_S_B(self):
         chunk = self.addr
@@ -847,33 +867,23 @@ class Mercury230:
         ser.write(chunk)
 #        time.sleep(100 / 1000)
         outa = ser.read(6)
-        # za = list(outa)
-        # lenga = len(za)
-        # a1 = za[lenga - 3]
-        # a2 = za[lenga - 4]
-        # A = format(a1, 'x') + format(a2, 'x')
-        # SB = int(A, 16) / 100
-        # chunk = self.crc16(chunk)
-        # ser = self.open_port(self.ipaddress1, self.ipport1)
-        # ser.write(chunk)
-        # time.sleep(100 / 1000)
-        # outa = ser.read_all()
-        # print(outa)
-        za = list(outa)
-        lenga = len(za)
-        a2 = za[lenga - 3]
-        a3 = za[lenga - 4]
-        a1a = za[lenga - 5]
-        mybyte = a1a
-        binary_string = "{:08b}".format(int(mybyte))
-        bd = list(binary_string)
-        AR = bd[0]
-        RR = bd[1]
-        a1 = ''.join(bd[2:8])
-        a1b = hex(int(a1, 2))
-        A = a1b + format(a2, 'x') + format(a3, 'x')
-        SB = int(A, 16) / 100
-        return SB
+        if temp[-2:] == self.crc16(temp[:-2])[-2:]:
+            za = list(outa)
+            lenga = len(za)
+            a2 = za[lenga - 3]
+            a3 = za[lenga - 4]
+            a1a = za[lenga - 5]
+            mybyte = a1a
+            binary_string = "{:08b}".format(int(mybyte))
+            bd = list(binary_string)
+            AR = bd[0]
+            RR = bd[1]
+            a1 = ''.join(bd[2:8])
+            a1b = hex(int(a1, 2))
+            A = a1b + format(a2, 'x') + format(a3, 'x')
+            SB = int(A, 16) / 100
+            return SB
+        return "crc_false"
 
     def get_S_C(self):
         chunk = self.addr
@@ -886,96 +896,23 @@ class Mercury230:
         ser.write(chunk)
 #        time.sleep(100 / 1000)
         outa = ser.read(6)
-        za = list(outa)
-        lenga = len(za)
-        a2 = za[lenga - 3]
-        a3 = za[lenga - 4]
-        a1a = za[lenga - 5]
-        mybyte = a1a
-        binary_string = "{:08b}".format(int(mybyte))
-        bd = list(binary_string)
-        AR = bd[0]
-        RR = bd[1]
-        a1 = ''.join(bd[2:8])
-        a1b = hex(int(a1, 2))
-        A = a1b + format(a2, 'x') + format(a3, 'x')
-        SC = int(A, 16) / 100
-        return SC
-
-    # def get_PF(self):
-    #     chunk = b'\x55'
-    #     chunk += b'\x08'
-    #     chunk += b'\x11'
-    #     chunk += b'\x30'
-    #     chunk = self.crc16(chunk)
-    #     ser = self.open_port(self.ipaddress1, self.ipport1)
-    #     time.sleep(100/1000)
-    #     outa = ser.read_all()
-    #     # za = list(outa)
-    #     # lenga = len(za)
-    #     # a1 = za[lenga - 3]
-    #     # a2 = za[lenga - 4]
-    #     # A = format(a1, 'x') + format(a2, 'x')
-    #     # PF = int(A, 16) / 1000
-    #     PF = outa
-    #     return PF
-    #
-    #
-    # def get_PF_A(self):
-    #     chunk = self.addr
-    #     chunk += b'\x08'
-    #     chunk += b'\x11'
-    #     chunk += b'\x31'
-    #     chunk = self.crc16(chunk)
-    #     ser = self.open_port(self.ipaddress1, self.ipport1)
-    #     time.sleep(100/1000)
-    #     outa = ser.read_all()
-    #     # za = list(outa)
-    #     # lenga = len(za)
-    #     # a1 = za[lenga - 3]
-    #     # a2 = za[lenga - 4]
-    #     # A = format(a1, 'x') + format(a2, 'x')
-    #     # PF_A = int(A, 16) / 1000
-    #     PF_A = outa
-    #     return PF_A
-    #
-    #
-    # def get_PF_B(self):
-    #     chunk = self.addr
-    #     chunk += b'\x08'
-    #     chunk += b'\x11'
-    #     chunk += b'\x32'
-    #     chunk = self.crc16(chunk)
-    #     ser = self.open_port(self.ipaddress1, self.ipport1)
-    #     time.sleep(100/1000)
-    #     outa = ser.read_all()
-    #     # za = list(outa)
-    #     # lenga = len(za)
-    #     # a1 = za[lenga - 3]
-    #     # a2 = za[lenga - 4]
-    #     # A = format(a1, 'x') + format(a2, 'x')
-    #     # PF_B = int(A, 16) / 1000
-    #     PF_B = outa
-    #     return PF_B
-    #
-    #
-    # def get_PF_C(self):
-    #     chunk = self.addr
-    #     chunk += b'\x08'
-    #     chunk += b'\x11'
-    #     chunk += b'\x33'
-    #     chunk = self.crc16(chunk)
-    #     ser = self.open_port(self.ipaddress1, self.ipport1)
-    #     time.sleep(100/1000)
-    #     outa = ser.read_all()
-    #     # za = list(outa)
-    #     # lenga = len(za)
-    #     # a1 = za[lenga - 3]
-    #     # a2 = za[lenga - 4]
-    #     # A = format(a1, 'x') + format(a2, 'x')
-    #     # PF_C = int(A, 16) / 1000
-    #     PF_C = outa
-    #     return PF_C
+        if temp[-2:] == self.crc16(temp[:-2])[-2:]:
+            za = list(outa)
+            lenga = len(za)
+            a2 = za[lenga - 3]
+            a3 = za[lenga - 4]
+            a1a = za[lenga - 5]
+            mybyte = a1a
+            binary_string = "{:08b}".format(int(mybyte))
+            bd = list(binary_string)
+            AR = bd[0]
+            RR = bd[1]
+            a1 = ''.join(bd[2:8])
+            a1b = hex(int(a1, 2))
+            A = a1b + format(a2, 'x') + format(a3, 'x')
+            SC = int(A, 16) / 100
+            return SC
+        return "crc_false"
 
 # merc = Mercury230(address, port)
 # m230a = Mercury230(91, 'COM3')

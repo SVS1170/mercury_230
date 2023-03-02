@@ -94,7 +94,7 @@ class Mercury230:
         # print("transmited : ",chunk)
         ser = self.open_port(self.ipaddress1, self.ipport1)
         ser.write(chunk)
-        time.sleep(100 / 1000)
+#        time.sleep(100 / 1000)
         # print("disconnect")
         return "ok"
 

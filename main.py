@@ -23,7 +23,7 @@ mercury_234 = Mercury230(address, ipaddress, ipport)
 
 def cycle_read():
     while r == True:
-#        mercury_234.connect_user()
+        mercury_234.connect_user()
 #        mercury_234.connection_test()
         Ua = mercury_234.get_voltage_A()
         Ub = mercury_234.get_voltage_B()
@@ -53,7 +53,7 @@ def cycle_read():
         # print("summPa,Pb,Pc :", mercury_234.get_active_energy_phases())
         # print(mercury_234.get_active_energy_current_day())
 #        db.insert_data_data('data', Ua, Ub, Uc, Ia, Ib, Ic, P, Pa, Pb, Pc, Qa, Qb, Qc, Sa, Sb, Sc, Tcase)
-#        mercury_234.disconnect()
+        mercury_234.disconnect()
         time.sleep(10)
 
 cycle_read()

@@ -105,7 +105,7 @@ def cycle_read():
         "Ia": Ia
         }
         print(json_string)
-        client.publish(mqtt_topic, json_string, 1)
+        client.publish(mqtt_topic, str(json_string), 1)
         mercury_234.disconnect()
         time.sleep(5)
 

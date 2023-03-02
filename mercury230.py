@@ -155,7 +155,7 @@ class Mercury230:
     def get_active_energy_current_day(self):
         chunk = self.addr
         chunk += b'\x05'  # чтение массивов накопленной энергии
-        chunk += b'\x90'  # на начало текущих суток
+        chunk += b'\x40'  # на начало текущих суток
         chunk += b'\x00'  # по тарифу№ (по сумме тарифов - 0)
         chunk = self.crc16(chunk)
         ser = self.open_port(self.ipaddress1, self.ipport1)
@@ -164,7 +164,7 @@ class Mercury230:
 #        print(chunk)
 #        time.sleep(100 / 1000)
         ver = ser.read(19)
-        print(ver)
+#        print(ver)
         if ver[-2:] == self.crc16(ver[:-2])[-2:]:
             za = list(ver)
             # print(za)

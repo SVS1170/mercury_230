@@ -101,11 +101,12 @@ def cycle_read():
         # print("summPa,Pb,Pc :", mercury_234.get_active_energy_phases())
         # print(mercury_234.get_active_energy_current_day())
 #        db.insert_data_data('data', Ua, Ub, Uc, Ia, Ib, Ic, P, Pa, Pb, Pc, Qa, Qb, Qc, Sa, Sb, Sc, Tcase)
-        json_string = '{"Ua": "' + str(Ua) + '", "Ub": "' + str(Ub) +
-        '"}'
+        json_string1 = '"Ua": "' + str(Ua) + '", "Ub": "' + str(Ub) + '", "Uc": "' + str(Uc) + '"'
+		json_string2 = '"Ia": "' + str(Ia) + '", "Ib": "' + str(Ib) + '", "Ic": "' + str(Ic) + '"'
+		json_string_end = '{' + json_string1 + ',' + json_string2 + '}'
 #        json_object = json.loads(json_string)
         print(json_string)
-        client.publish(mqtt_topic, json_string, 1)
+        client.publish(mqtt_topic, json_string_end, 1)
         mercury_234.disconnect()
         time.sleep(5)
 

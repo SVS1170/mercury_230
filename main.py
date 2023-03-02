@@ -5,7 +5,7 @@
 # import serial
 import struct
 import time
-import json
+#import json
 import configparser
 import paho.mqtt.client as mqtt
 from mercury230 import Mercury230
@@ -101,7 +101,7 @@ def cycle_read():
         # print("summPa,Pb,Pc :", mercury_234.get_active_energy_phases())
         # print(mercury_234.get_active_energy_current_day())
 #        db.insert_data_data('data', Ua, Ub, Uc, Ia, Ib, Ic, P, Pa, Pb, Pc, Qa, Qb, Qc, Sa, Sb, Sc, Tcase)
-        json_string = '{"Ua": "' + str(Ua) + '"}'
+        json_string = '{"Ua": "' + str(Ua) + '", "Ub": "' + str(Ub) + '"}'
 #        json_object = json.loads(json_string)
         print(json_string)
         client.publish(mqtt_topic, json_string, 1)

@@ -8,6 +8,9 @@ import time
 import configparser
 from bitstring import BitArray
 
+ser = self.open_port(self.ipaddress1, self.ipport1)
+ser.timeout = 0.1
+
 class Mercury230:
     def __init__(self, address, ipaddress, ipport):
         self.addr = struct.pack('B', address)

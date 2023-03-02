@@ -18,8 +18,8 @@ ipaddress = config["counter"]["ipaddress"]
 ipport = config["counter"]["ipport"]
 r = True
 mercury_234 = Mercury230(address, ipaddress, ipport)
-ser = open_port(self.ipaddress1, self.ipport1)
-ser.timeout = 0.1
+#ser = open_port(self.ipaddress1, self.ipport1)
+#ser.timeout = 0.1
 
 def cycle_read():
     while r == True:

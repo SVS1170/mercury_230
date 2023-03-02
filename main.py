@@ -91,7 +91,7 @@ def cycle_read():
         Sc = mercury_234.get_S_C()
         Hz = mercury_234.get_frequency()
         Tcase = mercury_234.get_temp()
-		Pcd = mercury_234.get_active_energy_current_day()
+        Pcd = mercury_234.get_active_energy_current_day()
 #        print("Ua : ", Ua, ", Ub : ", Ub, ", Uc : ", Uc)
 #        print("Ua : ", Ua)
 #        print("Ia : ", Ia, ", Ib : ", Ib, ", Ic : ", Ic)

@@ -91,9 +91,9 @@ def cycle_read():
         Sc = mercury_234.get_S_C()
         Hz = mercury_234.get_frequency()
         Tcase = mercury_234.get_temp()
-        print("Ua : ", Ua, ", Ub : ", Ub, ", Uc : ", Uc)
+#        print("Ua : ", Ua, ", Ub : ", Ub, ", Uc : ", Uc)
 #        print("Ua : ", Ua)
-        print("Ia : ", Ia, ", Ib : ", Ib, ", Ic : ", Ic)
+#        print("Ia : ", Ia, ", Ib : ", Ib, ", Ic : ", Ic)
         print("Pa : ", Pa, ", Pb : ", Pb, ", Pc : ", Pc)
         print("Qa : ", Qa, ", Qb : ", Qb, ", Qc : ", Qc)
         print("Sa : ", Sa, ", Sb : ", Sb, ", Sc : ", Sc)
@@ -103,7 +103,8 @@ def cycle_read():
 #        db.insert_data_data('data', Ua, Ub, Uc, Ia, Ib, Ic, P, Pa, Pb, Pc, Qa, Qb, Qc, Sa, Sb, Sc, Tcase)
         json_string1 = '"Ua": "' + str(Ua) + '", "Ub": "' + str(Ub) + '", "Uc": "' + str(Uc) + '"'
         json_string2 = '"Ia": "' + str(Ia) + '", "Ib": "' + str(Ib) + '", "Ic": "' + str(Ic) + '"'
-        json_string_end = '{' + json_string1 + ',' + json_string2 + '}'
+        json_string3 = '"P": "' + str(P) + '", "Pa": "' + str(Pa) + '", "Pb": "' + str(Pb) + '", "Pc": "' + str(Pc) + '"'
+        json_string_end = '{' + json_string1 + ',' + json_string2 + ',' + json_string3 + '}'
 #        json_object = json.loads(json_string)
         print(json_string_end)
         client.publish(mqtt_topic, json_string_end, 1)

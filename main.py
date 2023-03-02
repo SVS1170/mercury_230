@@ -6,6 +6,7 @@
 import struct
 import time
 import configparser
+import paho.mqtt.client as mqtt
 from mercury230 import Mercury230
 #import db_connector as db
 # from bitstring import BitArray
@@ -16,10 +17,55 @@ address = int(config["counter"]["address"])
 #addr = struct.pack('B', address)
 ipaddress = config["counter"]["ipaddress"]
 ipport = config["counter"]["ipport"]
+mqtt_ipaddress = config["mqtt"]["ipaddress"]
+#mqtt_port = config["mqtt"]["port"]
+mqtt_user = config["mqtt"]["user"]
+mqtt_pass = config["mqtt"]["pass"]
 r = True
 mercury_234 = Mercury230(address, ipaddress, ipport)
 #ser = open_port(self.ipaddress1, self.ipport1)
 #ser.timeout = 0.1
+
+def on_connect(client, userdata, flags, rc):
+    if rc == 0:
+#        client.loop_start()
+#        client.loop_start()
+        print("connected OK Returned code=", rc)
+#        logging.info("connected OK Returned code=" + str(rc))
+#        client.subscribe("gate1/reply", qos=1)
+    else:
+        print("Bad connection Returned code=", rc)
+#        logging.info("Bad connection Returned code=" + str(rc))
+
+def on_disconnect(client, userdata, rc):
+    if rc != 0:
+#        client.loop_stop()
+        print ("Unexpected MQTT disconnection. Will auto-reconnect")
+
+#def on_subscribe(client, userdata, mid, granted_qos):
+#    print("I've subscribed with QoS: {}".format(
+#    granted_qos[0]))
+
+#def on_message(client, userdata, msg):
+#    global pingerror
+#    print("Message received. Topic: {}. Payload: {}".format(
+#        msg.topic,
+#        str(msg.payload)))
+#    if str(msg.payload) == "b'tx-end'":
+#        bot.send_message(message_chat_id, 'Сигнал отправлен')
+#    if str(msg.payload) == "b'ping-ok'":
+#        pingerror = 0
+
+client = mqtt.Client("counter") #create new instance
+client.username_pw_set(mqtt_user, mqtt_pass)
+client.on_connect = on_connect
+client.on_disconnect = on_disconnect
+#client.on_subscribe = on_subscribe
+#client.on_message = on_message
+client.connect_async(mqtt_ipaddress) #connect to broker
+#client.publish("test22","OFF")#publish
+client.loop_start()
+
 
 def cycle_read():
     while r == True:

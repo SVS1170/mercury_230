@@ -13,6 +13,8 @@ class Mercury230:
         self.addr = struct.pack('B', address)
         self.ipaddress1 = ipaddress
         self.ipport1 = ipport
+        ser = self.open_port(self.ipaddress1, self.ipport1)
+        ser.timeout = 0.1
 
     def open_port(self, ipaddress1, ipport1):
 #        ser = serial.Serial(f"{port1}", 9600, serial.EIGHTBITS, serial.PARITY_NONE, serial.STOPBITS_ONE)
@@ -54,8 +56,8 @@ class Mercury230:
         chunk += b'\x00'
         chunk = self.crc16(chunk)
         print(chunk)
-        ser = self.open_port(self.ipaddress1, self.ipport1)
-        ser.timeout = 0.3
+#        ser = self.open_port(self.ipaddress1, self.ipport1)
+#        ser.timeout = 0.1
         print ('Connected:', ser.isOpen())
         ser.write(chunk)
 #        time.sleep(100 / 1000)

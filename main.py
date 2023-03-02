@@ -23,7 +23,7 @@ mercury_234 = Mercury230(address, ipaddress, ipport)
 
 def cycle_read():
     while r == True:
-        mercury_234.connect_user()
+#        mercury_234.connect_user()
 #        mercury_234.connection_test()
         Ua = mercury_234.get_voltage_A()
         Ub = mercury_234.get_voltage_B()

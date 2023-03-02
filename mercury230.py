@@ -159,7 +159,7 @@ class Mercury230:
         chunk += b'\x00'  # по тарифу№ (по сумме тарифов - 0)
         chunk = self.crc16(chunk)
         ser = self.open_port(self.ipaddress1, self.ipport1)
-        ser.timeout = 0.2
+        ser.timeout = 0.3
         ser.write(chunk)
 #        time.sleep(100 / 1000)
         ver = ser.read(19)

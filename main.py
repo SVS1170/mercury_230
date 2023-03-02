@@ -94,9 +94,9 @@ def cycle_read():
 #        print("Ua : ", Ua, ", Ub : ", Ub, ", Uc : ", Uc)
 #        print("Ua : ", Ua)
 #        print("Ia : ", Ia, ", Ib : ", Ib, ", Ic : ", Ic)
-        print("Pa : ", Pa, ", Pb : ", Pb, ", Pc : ", Pc)
-        print("Qa : ", Qa, ", Qb : ", Qb, ", Qc : ", Qc)
-        print("Sa : ", Sa, ", Sb : ", Sb, ", Sc : ", Sc)
+#        print("Pa : ", Pa, ", Pb : ", Pb, ", Pc : ", Pc)
+#        print("Qa : ", Qa, ", Qb : ", Qb, ", Qc : ", Qc)
+#        print("Sa : ", Sa, ", Sb : ", Sb, ", Sc : ", Sc)
         print("Hz : ", Hz, ", Tcase : ", Tcase)
         # print("summPa,Pb,Pc :", mercury_234.get_active_energy_phases())
         # print(mercury_234.get_active_energy_current_day())
@@ -104,7 +104,9 @@ def cycle_read():
         json_string1 = '"Ua": "' + str(Ua) + '", "Ub": "' + str(Ub) + '", "Uc": "' + str(Uc) + '"'
         json_string2 = '"Ia": "' + str(Ia) + '", "Ib": "' + str(Ib) + '", "Ic": "' + str(Ic) + '"'
         json_string3 = '"P": "' + str(P) + '", "Pa": "' + str(Pa) + '", "Pb": "' + str(Pb) + '", "Pc": "' + str(Pc) + '"'
-        json_string_end = '{' + json_string1 + ',' + json_string2 + ',' + json_string3 + '}'
+        json_string4 = '"Qa": "' + str(Qa) + '", "Qb": "' + str(Qb) + '", "Qc": "' + str(Qc) + '"'
+        json_string5 = '"Sa": "' + str(Sa) + '", "Sb": "' + str(Sb) + '", "Sc": "' + str(Sc) + '"'
+        json_string_end = '{' + json_string1 + ',' + json_string2 + ',' + json_string3 + ',' + json_string4 + ',' + json_string5 + '}'
 #        json_object = json.loads(json_string)
         print(json_string_end)
         client.publish(mqtt_topic, json_string_end, 1)

@@ -103,7 +103,7 @@ def cycle_read():
 #        db.insert_data_data('data', Ua, Ub, Uc, Ia, Ib, Ic, P, Pa, Pb, Pc, Qa, Qb, Qc, Sa, Sb, Sc, Tcase)
         json_string = {"Ua": Ua
         }
-        json_object = json.loads(json_string)
+        json_object = json.loads(str(json_string))
         print(json_string)
         client.publish(mqtt_topic, str(json_string), 1)
         mercury_234.disconnect()

@@ -337,7 +337,7 @@ class Mercury230:
 #        time.sleep(100 / 1000)
         temp = ser.read(6)
         za = list(temp)
-        temp = int(za[2])
+        temp = int(za[2]) / 10
         return temp
 
     def get_caseopen(self):

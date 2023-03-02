@@ -565,13 +565,13 @@ class Mercury230:
             mybyte = a1a
             binary_string = "{:08b}".format(int(mybyte))
             bd = list(binary_string)
-           AR = bd[0]
-           RR = bd[1]
-           a1 = ''.join(bd[2:8])
-           a1b = hex(int(a1, 2))
-           A = a1b + format(a2, 'x') + format(a3, 'x')
-           P = int(A, 16) / 100
-           return P
+            AR = bd[0]
+            RR = bd[1]
+            a1 = ''.join(bd[2:8])
+            a1b = hex(int(a1, 2))
+            A = a1b + format(a2, 'x') + format(a3, 'x')
+            P = int(A, 16) / 100
+            return P
         return "crc_false"
 
     def get_P_A(self):

@@ -159,11 +159,11 @@ class Mercury230:
         chunk += b'\x00'  # по тарифу№ (по сумме тарифов - 0)
         chunk = self.crc16(chunk)
         ser = self.open_port(self.ipaddress1, self.ipport1)
-        ser.timeout = 2.1
+        ser.timeout = 0.2
         ser.write(chunk)
         print(chunk)
 #        time.sleep(100 / 1000)
-        ver = ser.read(20)
+        ver = ser.read(19)
         print(ver)
         if ver[-2:] == self.crc16(ver[:-2])[-2:]:
             za = list(ver)

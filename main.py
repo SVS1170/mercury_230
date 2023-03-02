@@ -108,7 +108,8 @@ def cycle_read():
         json_string4 = '"Qa": "' + str(Qa) + '", "Qb": "' + str(Qb) + '", "Qc": "' + str(Qc) + '"'
         json_string5 = '"Sa": "' + str(Sa) + '", "Sb": "' + str(Sb) + '", "Sc": "' + str(Sc) + '"'
         json_string6 = '"Hz": "' + str(Hz) + '", "Tcase": "' + str(Tcase) + '"'
-        json_string_end = '{' + json_string1 + ',' + json_string2 + ',' + json_string3 + ',' + json_string4 + ',' + json_string5 + ',' + json_string6 + '}'
+        json_string7 = '"Pcd": "' + str(Pcd) + '"'
+        json_string_end = '{' + json_string1 + ',' + json_string2 + ',' + json_string3 + ',' + json_string4 + ',' + json_string5 + ',' + json_string6 + ',' + json_string7 + '}'
 #        json_object = json.loads(json_string)
         print(json_string_end)
         client.publish(mqtt_topic, json_string_end, 1)

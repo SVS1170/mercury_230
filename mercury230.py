@@ -332,9 +332,10 @@ class Mercury230:
         chunk += b'\x70'  # BWRI (номер вспомогательного параметра)
         chunk = self.crc16(chunk)
         ser = self.open_port(self.ipaddress1, self.ipport1)
+        ser.timeout = 0.2
         ser.write(chunk)
-        time.sleep(100 / 1000)
-        temp = ser.read_all()
+#        time.sleep(100 / 1000)
+        temp = ser.read(6)
         za = list(temp)
         temp = int(za[2])
         return temp
@@ -385,9 +386,10 @@ class Mercury230:
         chunk += b'\x40'  # BWRI (номер вспомогательного параметра)
         chunk = self.crc16(chunk)
         ser = self.open_port(self.ipaddress1, self.ipport1)
+        ser.timeout = 0.2
         ser.write(chunk)
-        time.sleep(100 / 1000)
-        temp = ser.read_all()
+#        time.sleep(100 / 1000)
+        temp = ser.read(6)
         za = list(temp)
         lenga = len(za)
         a1 = za[lenga - 3]
@@ -397,17 +399,17 @@ class Mercury230:
         return frequency
 
     # for mercury 234
-    def get_aux_fast(self):
-        chunk = self.addr  # сетевой адрес
-        chunk += b'\x08'
-        chunk += b'\x16'
-        chunk += b'\xA0'
-        chunk = self.crc16(chunk)
-        ser = self.open_port(self.ipaddress1, self.ipport1)
-        ser.write(chunk)
-        time.sleep(100 / 1000)
-        outdata = ser.read_all()
-        print(outdata)
+#    def get_aux_fast(self):
+#        chunk = self.addr  # сетевой адрес
+#        chunk += b'\x08'
+#        chunk += b'\x16'
+#        chunk += b'\xA0'
+#        chunk = self.crc16(chunk)
+#        ser = self.open_port(self.ipaddress1, self.ipport1)
+#        ser.write(chunk)
+#        time.sleep(100 / 1000)
+#        outdata = ser.read_all()
+#        print(outdata)
 
         # return outdata
 

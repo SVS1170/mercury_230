@@ -8,21 +8,21 @@ import time
 import configparser
 from bitstring import BitArray
 
-ser = open_port(self.ipaddress1, self.ipport1)
-ser.timeout = 0.1
+#ser = open_port(self.ipaddress1, self.ipport1)
+#ser.timeout = 0.1
 
 class Mercury230:
-    def __init__(self, address, ipaddress, ipport):
-        self.addr = struct.pack('B', address)
-        self.ipaddress1 = ipaddress
-        self.ipport1 = ipport
-#        ser = self.open_port(self.ipaddress1, self.ipport1)
-#        ser.timeout = 0.1
-
     def open_port(self, ipaddress1, ipport1):
 #        ser = serial.Serial(f"{port1}", 9600, serial.EIGHTBITS, serial.PARITY_NONE, serial.STOPBITS_ONE)
         ser = serial.serial_for_url("socket://" + ipaddress1 + ":" + ipport1)
         return ser
+        
+    def __init__(self, address, ipaddress, ipport):
+        self.addr = struct.pack('B', address)
+        self.ipaddress1 = ipaddress
+        self.ipport1 = ipport
+        ser = self.open_port(self.ipaddress1, self.ipport1)
+        ser.timeout = 0.1
 
     def test_hex_to_bin(self):
         # a = addr

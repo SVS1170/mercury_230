@@ -21,6 +21,7 @@ mqtt_ipaddress = config["mqtt"]["ipaddress"]
 #mqtt_port = config["mqtt"]["port"]
 mqtt_user = config["mqtt"]["user"]
 mqtt_pass = config["mqtt"]["pass"]
+mqtt_topic = config["mqtt"]["topic"]
 r = True
 mercury_234 = Mercury230(address, ipaddress, ipport)
 #ser = open_port(self.ipaddress1, self.ipport1)
@@ -104,6 +105,7 @@ def cycle_read():
         "Ia": Ia
         }
         print(json_string)
+		client.publish(mqtt_topic, json_string, 1)
         mercury_234.disconnect()
         time.sleep(5)
 

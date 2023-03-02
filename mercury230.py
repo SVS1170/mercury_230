@@ -393,13 +393,15 @@ class Mercury230:
         ser.write(chunk)
 #        time.sleep(100 / 1000)
         temp = ser.read(6)
-        za = list(temp)
-        lenga = len(za)
-        a1 = za[lenga - 3]
-        a2 = za[lenga - 4]
-        f = format(a1, 'x') + format(a2, 'x')
-        frequency = int(f, 16) / 100
-        return frequency
+        if temp[-2:] == self.crc16(temp[:-2])[-2:]:
+            za = list(temp)
+            lenga = len(za)
+            a1 = za[lenga - 3]
+            a2 = za[lenga - 4]
+            f = format(a1, 'x') + format(a2, 'x')
+            frequency = int(f, 16) / 100
+            return frequency
+        return "crc_false"
 
     # for mercury 234
 #    def get_aux_fast(self):

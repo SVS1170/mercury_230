@@ -59,7 +59,7 @@ class Mercury230:
         ser.write(chunk)
 #        time.sleep(100 / 1000)
 #        bytesToRead = ser.inWaiting()
-        dat = ser.read(4)
+        dat = ser.read(5)
         print(dat)
 
     def search_counter(self):

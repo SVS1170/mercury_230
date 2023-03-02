@@ -159,19 +159,22 @@ class Mercury230:
         chunk += b'\x00'  # по тарифу№ (по сумме тарифов - 0)
         chunk = self.crc16(chunk)
         ser = self.open_port(self.ipaddress1, self.ipport1)
+		ser.timeout = 0.2
         ser.write(chunk)
-        time.sleep(100 / 1000)
-        ver = ser.read_all()
-        za = list(ver)
-        # print(za)
-        lengza = len(za)
-        a0 = za[lengza - 15]
-        a1 = za[lengza - 16]
-        a2 = za[lengza - 17]
-        a3 = za[lengza - 18]
-        A = format(a3, 'x') + format(a2, 'x') + format(a0, 'x') + format(a1, 'x')
-        P = int(A, 16) / 1000
-        return P
+#        time.sleep(100 / 1000)
+        ver = ser.read(19)
+		if temp[-2:] == self.crc16(temp[:-2])[-2:]:
+            za = list(ver)
+            # print(za)
+            lengza = len(za)
+            a0 = za[lengza - 15]
+            a1 = za[lengza - 16]
+            a2 = za[lengza - 17]
+            a3 = za[lengza - 18]
+            A = format(a3, 'x') + format(a2, 'x') + format(a0, 'x') + format(a1, 'x')
+            P = int(A, 16) / 1000
+            return P
+	    return "crc_false"
 
     def get_active_energy_last_day(self):
         chunk = self.addr

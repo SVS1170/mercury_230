@@ -71,7 +71,7 @@ client.loop_start()
 
 def cycle_read():
     while r == True:
-        mercury_234.connect_user()
+        mercury_234.connect_admin()
 #        mercury_234.connection_test()
         Ua = mercury_234.get_voltage_A()
         Ub = mercury_234.get_voltage_B()

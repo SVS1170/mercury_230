@@ -163,7 +163,7 @@ class Mercury230:
         ser.write(chunk)
 #        time.sleep(100 / 1000)
         ver = ser.read(19)
-        if temp[-2:] == self.crc16(temp[:-2])[-2:]:
+        if ver[-2:] == self.crc16(ver[:-2])[-2:]:
             za = list(ver)
             # print(za)
             lengza = len(za)

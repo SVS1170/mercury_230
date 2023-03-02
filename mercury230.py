@@ -476,9 +476,10 @@ class Mercury230:
         chunk += b'\x21'
         chunk = self.crc16(chunk)
         ser = self.open_port(self.ipaddress1, self.ipport1)
+        ser.timeout = 0.2
         ser.write(chunk)
-        time.sleep(100 / 1000)
-        outa = ser.read_all()
+#        time.sleep(100 / 1000)
+        outa = ser.read(6)
         za = list(outa)
         lenga = len(za)
         a1 = za[lenga - 3]
@@ -494,9 +495,10 @@ class Mercury230:
         chunk += b'\x22'
         chunk = self.crc16(chunk)
         ser = self.open_port(self.ipaddress1, self.ipport1)
+        ser.timeout = 0.2
         ser.write(chunk)
-        time.sleep(100 / 1000)
-        outa = ser.read_all()
+#        time.sleep(100 / 1000)
+        outa = ser.read(6)
         za = list(outa)
         lenga = len(za)
         a1 = za[lenga - 3]
@@ -512,9 +514,10 @@ class Mercury230:
         chunk += b'\x23'
         chunk = self.crc16(chunk)
         ser = self.open_port(self.ipaddress1, self.ipport1)
+        ser.timeout = 0.2
         ser.write(chunk)
-        time.sleep(100 / 1000)
-        outa = ser.read_all()
+#        time.sleep(100 / 1000)
+        outa = ser.read(6)
         za = list(outa)
         lenga = len(za)
         a1 = za[lenga - 3]

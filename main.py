@@ -114,6 +114,6 @@ def cycle_read():
         print(json_string_end)
         client.publish(mqtt_topic, json_string_end, 1)
         mercury_234.disconnect()
-        time.sleep(5)
+        time.sleep(4)
 
 cycle_read()

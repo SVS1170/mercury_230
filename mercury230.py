@@ -604,7 +604,7 @@ class Mercury230:
             a1 = ''.join(bd[2:8])
             a1b = hex(int(a1, 2))
             A = a1b + format(a2, 'x') + format(a3, 'x')
-            k = -1
+            k = 1
             PA = int(A, 16) / 100
             if AR:
                 PA = PA * k
@@ -637,7 +637,7 @@ class Mercury230:
             a1b = hex(int(a1, 2))
             A = a1b + format(a2, 'x') + format(a3, 'x')
             PB = int(A, 16) / 100
-            k = -1
+            k = 1
             if AR:
                 PB = PB * k
             return PB
@@ -669,7 +669,7 @@ class Mercury230:
             a1b = hex(int(a1, 2))
             A = a1b + format(a2, 'x') + format(a3, 'x')
             PC = int(A, 16) / 100
-            k = -1
+            k = 1
             if AR:
                 PC = PC * k
             return PC

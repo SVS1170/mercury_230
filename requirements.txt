@@ -1,4 +1,5 @@
 bitstring
 pyserial
 psycopg2
-SQLAlchemy
+pyserial
+paho-mqtt

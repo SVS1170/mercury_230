@@ -1,0 +1,8 @@
+version: "3.8"
+services:
+  mercury_230:
+    build: .
+    container_name: mercury_230
+    volumes:
+      - /docker/mercury_230/app:/usr/src/app
+    restart: unless-stopped

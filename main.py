@@ -70,10 +70,12 @@ client.loop_start()
 
 
 def cycle_read():
+    Ua = 0
+    gUa = True
     while r == True:
         mercury_234.connect_user()
 #        mercury_234.connection_test()
-        Ua = mercury_234.get_voltage_A()
+        lUa = mercury_234.get_voltage_A()
         Ub = mercury_234.get_voltage_B()
         Uc = mercury_234.get_voltage_C()
         Ia = mercury_234.get_current_A()
@@ -92,6 +94,15 @@ def cycle_read():
         Hz = mercury_234.get_frequency()
         Tcase = mercury_234.get_temp()
         Pcd = mercury_234.get_active_energy_current_day()
+        if abs(lUa - Ua) < 30:
+                Ua = lUa
+                fooUa = False
+        else:
+            if fooUa:
+                Ua = lUa
+                fooUa = False
+            fooUa = True
+            
 #        print("Ua : ", Ua, ", Ub : ", Ub, ", Uc : ", Uc)
 #        print("Ua : ", Ua)
 #        print("Ia : ", Ia, ", Ib : ", Ib, ", Ic : ", Ic)
@@ -114,6 +125,6 @@ def cycle_read():
         print(json_string_end)
         client.publish(mqtt_topic, json_string_end, 1)
         mercury_234.disconnect()
-        time.sleep(4)
+        time.sleep(5)
 
 cycle_read()

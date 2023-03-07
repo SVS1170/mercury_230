@@ -71,6 +71,8 @@ client.loop_start()
 
 def cycle_read():
     Ua = 0
+    Ub = 0
+    Uc = 0
     fooUa = True
     fooUb = True
     fooUc = True

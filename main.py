@@ -76,15 +76,21 @@ def cycle_read():
     fooUa = True
     fooUb = True
     fooUc = True
+    Ia = 0
+    Ib = 0
+    Ic = 0
+    fooIa = True
+    fooIb = True
+    fooIc = True
     while r == True:
         mercury_234.connect_user()
 #        mercury_234.connection_test()
         lUa = mercury_234.get_voltage_A()
         lUb = mercury_234.get_voltage_B()
         lUc = mercury_234.get_voltage_C()
-        Ia = mercury_234.get_current_A()
-        Ib = mercury_234.get_current_B()
-        Ic = mercury_234.get_current_C()
+        lIa = mercury_234.get_current_A()
+        lIb = mercury_234.get_current_B()
+        lIc = mercury_234.get_current_C()
         P = mercury_234.get_P()
         Pa = mercury_234.get_P_A()
         Pb = mercury_234.get_P_B()
@@ -96,7 +102,7 @@ def cycle_read():
         Sb = mercury_234.get_S_B()
         Sc = mercury_234.get_S_C()
         Hz = mercury_234.get_frequency()
-        Tcase = mercury_234.get_temp()
+#        Tcase = mercury_234.get_temp()
         Pcd = mercury_234.get_active_energy_current_day()
         if abs(lUa - Ua) < 30:
                 Ua = lUa
@@ -122,6 +128,30 @@ def cycle_read():
                 Uc = lUc
                 fooUc = False
             fooUc = True
+        if abs(lIa - Ia) < 5:
+                Ia = lIa
+                fooIa = False
+        else:
+            if fooIa:
+                Ia = lIa
+                fooIa = False
+            fooIa = True
+        if abs(lIb - Ib) < 5:
+                Ib = lIb
+                fooIb = False
+        else:
+            if fooIb:
+                Ib = lIb
+                fooIb = False
+            fooIb = True
+        if abs(lIc - Ic) < 30:
+                Ic = lIc
+                fooIc = False
+        else:
+            if fooIc:
+                Ic = lIc
+                fooIc = False
+            fooIc = True
             
 #        print("Ua : ", Ua, ", Ub : ", Ub, ", Uc : ", Uc)
 #        print("Ua : ", Ua)
@@ -129,7 +159,7 @@ def cycle_read():
 #        print("Pa : ", Pa, ", Pb : ", Pb, ", Pc : ", Pc)
 #        print("Qa : ", Qa, ", Qb : ", Qb, ", Qc : ", Qc)
 #        print("Sa : ", Sa, ", Sb : ", Sb, ", Sc : ", Sc)
-        print("Hz : ", Hz, ", Tcase : ", Tcase)
+#        print("Hz : ", Hz, ", Tcase : ", Tcase)
         # print("summPa,Pb,Pc :", mercury_234.get_active_energy_phases())
         # print(mercury_234.get_active_energy_current_day())
 #        db.insert_data_data('data', Ua, Ub, Uc, Ia, Ib, Ic, P, Pa, Pb, Pc, Qa, Qb, Qc, Sa, Sb, Sc, Tcase)
@@ -138,7 +168,7 @@ def cycle_read():
         json_string3 = '"P": "' + str(P) + '", "Pa": "' + str(Pa) + '", "Pb": "' + str(Pb) + '", "Pc": "' + str(Pc) + '"'
         json_string4 = '"Qa": "' + str(Qa) + '", "Qb": "' + str(Qb) + '", "Qc": "' + str(Qc) + '"'
         json_string5 = '"Sa": "' + str(Sa) + '", "Sb": "' + str(Sb) + '", "Sc": "' + str(Sc) + '"'
-        json_string6 = '"Hz": "' + str(Hz) + '", "Tcase": "' + str(Tcase) + '"'
+        json_string6 = '"Hz": "' + str(Hz) + '"'
         json_string7 = '"Pcd": "' + str(Pcd) + '"'
         json_string_end = '{' + json_string1 + ',' + json_string2 + ',' + json_string3 + ',' + json_string4 + ',' + json_string5 + ',' + json_string6 + ',' + json_string7 + '}'
 #        json_object = json.loads(json_string)

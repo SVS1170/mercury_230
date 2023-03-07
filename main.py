@@ -72,12 +72,14 @@ client.loop_start()
 def cycle_read():
     Ua = 0
     fooUa = True
+    fooUb = True
+    fooUc = True
     while r == True:
         mercury_234.connect_user()
 #        mercury_234.connection_test()
         lUa = mercury_234.get_voltage_A()
-        Ub = mercury_234.get_voltage_B()
-        Uc = mercury_234.get_voltage_C()
+        lUb = mercury_234.get_voltage_B()
+        lUc = mercury_234.get_voltage_C()
         Ia = mercury_234.get_current_A()
         Ib = mercury_234.get_current_B()
         Ic = mercury_234.get_current_C()
@@ -102,6 +104,22 @@ def cycle_read():
                 Ua = lUa
                 fooUa = False
             fooUa = True
+        if abs(lUb - Ub) < 30:
+                Ub = lUb
+                fooUb = False
+        else:
+            if fooUa:
+                Ub = lUb
+                fooUb = False
+            fooUb = True
+        if abs(lUc - Uc) < 30:
+                Uc = lUa
+                fooUc = False
+        else:
+            if fooUc:
+                Uc = lUc
+                fooUc = False
+            fooUc = True
             
 #        print("Ua : ", Ua, ", Ub : ", Ub, ", Uc : ", Uc)
 #        print("Ua : ", Ua)

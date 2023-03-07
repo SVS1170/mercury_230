@@ -110,12 +110,12 @@ def cycle_read():
                 Ub = lUb
                 fooUb = False
         else:
-            if fooUa:
+            if fooUb:
                 Ub = lUb
                 fooUb = False
             fooUb = True
         if abs(lUc - Uc) < 30:
-                Uc = lUa
+                Uc = lUc
                 fooUc = False
         else:
             if fooUc:

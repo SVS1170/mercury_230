@@ -172,7 +172,8 @@ def cycle_read():
         json_string7 = '"Pcd": "' + str(Pcd) + '"'
         json_string_end = '{' + json_string1 + ',' + json_string2 + ',' + json_string3 + ',' + json_string4 + ',' + json_string5 + ',' + json_string6 + ',' + json_string7 + '}'
 #        json_object = json.loads(json_string)
-        print(json_string_end)
+        print(json_string1)
+        print(json_string2)
         client.publish(mqtt_topic, json_string_end, 1)
         mercury_234.disconnect()
         time.sleep(5)

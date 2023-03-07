@@ -71,7 +71,7 @@ client.loop_start()
 
 def cycle_read():
     Ua = 0
-    gUa = True
+    fooUa = True
     while r == True:
         mercury_234.connect_user()
 #        mercury_234.connection_test()

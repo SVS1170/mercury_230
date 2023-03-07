@@ -144,7 +144,7 @@ def cycle_read():
                 Ib = lIb
                 fooIb = False
             fooIb = True
-        if abs(lIc - Ic) < 30:
+        if abs(lIc - Ic) < 5:
                 Ic = lIc
                 fooIc = False
         else:
